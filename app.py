@@ -29,13 +29,16 @@ def authenticate(username,password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    username=execute_query("SELECT username FROM users WHERE user_id=1")[0][0]
+    
     if request.method=='POST':
-        role=authenticate(request.form["username"], request.form["password"])
+        
+        role=authenticate(username, username)
         if role==None:
             return abort(403)
         else:
             session["role"]=role
-            session["username"]=request.form["username"]
+            session["username"]=username
 
     
         return redirect(url_for('home'))

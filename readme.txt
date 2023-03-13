@@ -1,7 +1,5 @@
 ##  login 
-currently, to get access to student info you need to log-in using a studnet username and password.
-username: tiffany70@example.net
-password: tiffany70@example.net
+
 
 
 13.03
