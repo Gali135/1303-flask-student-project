@@ -1,0 +1,26 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+    <title>All Courses</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+    <div class="cards_container">
+        <ul>
+        {% for c in courses%}
+            <li>
+                <div class="card">
+                    <img src="/static/img/{{c.course_name }}_logo.png " alt="">
+                    <h1>{{c.course_name}}</h1>
+                    <p>{{c.desc}}</p>
+                    <p><button id="">Show more</button></p>
+                </div>
+            </li>
+         {% endfor %}
+        </ul>
+    </div>
+   
+</body>
+</html>

@@ -1,0 +1,370 @@
+body{
+background-image: url("/static/img/pic.png");
+background-repeat: no-repeat;
+background-size: cover;
+display: flex;
+font-family: 'Ropa Sans', sans-serif;
+font-size: 25px;
+
+}
+li,a,button{
+    text-decoration: none;
+    color: white;
+}
+header {
+    position: absolute;
+    top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-size: 30px;
+    width: 80%;
+
+  }
+  
+  .logo {
+    height: 80px;
+    margin-right: auto;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .nav_links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0 30px 0;
+  }
+  
+  .nav_links li {
+    margin: 0 10px;
+  }
+  
+  .nav_links form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 10px; 
+    max-width: 100px;
+    background-color: none;
+    
+  }
+ .nav_links form button{
+    width: 40px;
+    font-size: 10px;
+ }
+ .nav_links form input[type="text"]{
+    width:70px;
+    background-color: none;
+ }
+.nav_links li a:hover{
+    color: orange;
+}
+button{
+    
+    padding: 9px 25px;
+    background-color: orange;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    font-size: 18px;
+}
+.log a {
+    right:20px;
+    left: auto;
+}
+button:hover{
+color: white;
+}
+.msg{
+    color: orange;
+    padding: 2px;
+    margin: 100px;
+    /* margin-left: 30%; */
+    justify-content: center; 
+    
+}
+
+form {
+    align-items: center;
+    margin-top: 150px;
+    position: absolute;
+    right: 170px;
+    background-color: rgba(46, 46, 45, 0.842);
+    width: 18%;
+    text-align: center;
+    
+}
+form button{
+    background-color: orange;
+    color: black;
+    padding: 5px;
+    margin:15px;
+    width: 80px;
+    border-radius: 50px;
+    border: none;
+
+
+    
+}
+form input[type=text]{
+    width:205px;
+    border:none;
+    border-bottom: 2px solid orange;
+    color: lightgray;
+    margin:15px;
+    background-color: rgba(46, 46, 45, 0.842) ;
+    font-size: 20px;
+}
+form input[type=date]{
+    width:205px;
+    border:none;
+    border-bottom: 2px solid orange;
+    color: lightgray;
+    margin:15px;
+    background-color: rgba(46, 46, 45, 0.842) ;
+    font-size: 20px
+}
+form label{
+    margin: 15px;
+    color: orange;
+    
+}
+form select{
+    margin: 15px;
+    background-color: rgba(46, 46, 45, 0.842) ;
+    width: 205px;
+    color: lightgray;
+    border-color:rgba(46, 46, 45, 0.842) ;
+    border-radius: 5px;
+    font-size: 20px;
+    
+
+}
+
+form select option{
+    background-color: rgba(46, 46, 45, 0.842) ;
+    
+    
+}
+
+ form .title{
+    background-color: white;
+    font-size: larger;
+    padding:5px;
+    color: rgb(234, 155, 8);
+    border-radius: 10px;
+    width:205px;
+    margin:15px;
+    text-align: center;
+    align-items: center;
+
+
+ }
+.intro{
+    color: orange;
+    padding: 20px;
+    margin-top: 45px;
+    font-size: 35px; 
+    /* margin-left: 30%; */
+    justify-content: center; 
+    
+   
+}
+.student_intro{
+    color: orange;
+    margin: 120px;
+    font-size: 20px ; 
+    /* margin-left: 30%; */
+    
+}
+.student_info {
+    display: flex;
+    margin: 100px
+}
+.student_info a{
+    top:170px;
+    right:40px;
+}
+table{
+    border: none;
+    border-collapse: collapse;
+    position: absolute;
+    top: 170px;
+    left:300px;
+    text-align: center;
+    width: 50%;
+    height: 40%;
+    
+}
+table th{
+    color: orange;
+    padding: 10px;
+    font-size: x-large;
+}
+table td{
+    color: white;
+    border-bottom: 1pt solid rgba(255, 166, 0, 0.45);
+}
+
+table a button{
+    padding: 1px 1px;
+    text-align: center;
+    font-size: 10px;
+    width: 60px;
+    height: 20px;
+    font-size: 18px;
+}
+    
+
+/* .container{
+     box-sizing: border-box;
+    justify-content: center;
+    flex-direction: column; 
+}
+*/
+.cards_container{
+    flex-direction: column;
+    margin-top: 120px;
+    margin-left: 20%;
+    align-items: center;
+}
+.cards_container ul{
+    list-style: none;
+}
+.card{
+    box-sizing: border-box;
+    /* justify-content: flex-start; */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgba(253, 253, 253, 0.493);
+    max-width: 100%;
+    width:700px;
+    margin: 50px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 10px; 
+    overflow: hidden; 
+    max-height: 100px ;
+    
+
+}
+.card h1{
+color: white;
+align-items:center;
+margin-left: 50px;
+
+}
+.card img {
+    left:0;
+    width: 20%;
+    height: 100px;
+    
+}
+.card p{
+    margin-left: 50px;
+}
+.card button{
+    
+    margin-right: 8px;
+    margin-left: auto;
+}
+.search_result{
+    margin-top: 200px;
+    margin-left: 20px;
+}
+/* need to be placed on the right */
+.attendance button{
+    margin-top: 100px;
+}
+
+.date form{
+    right: auto;
+    left: 100px;
+    width: 400px;
+    align-items: center;
+    background-color: none;
+    
+    
+    
+}
+.container{
+    right: auto;
+    
+    flex-direction: column;
+    display: flex;
+    margin-top: 40px;
+    
+        
+}
+.container ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        
+
+      
+}
+.container form{
+    align-items:stretch;
+    right:auto;
+    left: 26.5%;
+    width: 600px;  
+    text-align: left; 
+    
+}
+  
+  .container li {
+    
+    padding:30px;
+    margin: 10px 1px 10px;
+
+  }
+  .course_table table{
+    right: auto;
+    left: 100px;
+  }
+
+select{
+    color: white;
+}
+
+.date form{
+    width:600px;
+    margin-left: 20%;
+}
+.atten_container{
+    display: flex;
+    top:150px;
+    
+}
+.atten_container form{
+    width:600px;
+    margin-left: 28%;
+    top:50px;
+    right:auto;
+    margin-bottom: 20px;
+}
+.atten_container table{
+    text-align: center;
+    top:280px;
+    width:600px;
+    width:600px;
+    margin-left: 10%;
+
+}

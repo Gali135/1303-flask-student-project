@@ -1,0 +1,20 @@
+{% include 'header>.html' %}
+{%block head%}
+{% endblock %}
+    <title>Registrations</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+    <div>  {{student_name}}'s courses</div>
+    <table> 
+       <tr><th>Course Name</th></tr> 
+        {% for course in course_names %}
+       <tr><td>{{ course }}</td></tr>
+    </table>
+    {% endfor %}
+    
+    
+</body>
+</html>

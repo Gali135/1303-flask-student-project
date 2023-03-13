@@ -1,0 +1,26 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+
+    <title>Add Course</title>
+</head>
+<body>
+   
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="intro" id="addCourseIntro">
+        <h4>Please select course for attendance</h4>
+    </div>
+    
+    <div class=course_table>
+        <table>
+            <tr><th>Course names</th><th>Teacher asigned</th><th></th></tr>
+            {% for course in courses_lst %}
+            <tr><td> <a href="/attendance/{{course.id}}">{{course.c_name}}</a> </td><td>{{course.t_name}}</td>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+
+    <title>Add Course</title>
+</head>
+<body>
+   
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="intro" id="addCourseIntro">
+         
+
+    </div>
+    <form action="/add_course" method="post">
+        <div class=title>Add Course</div><br>
+        <input type="text" id="course_name" name="course_name" placeholder="Enter Course Name"><br>
+        <label for="">Select start date</label>
+        <input type="date" name="start_date">
+        <label> Select teacher </label>
+        <select name="teacher_id" id="teacher_id">
+                <option value="" disabled selected hidden> Select Teacher</option> 
+                {% for teacher in teachers_lst %}
+                    <option value="{{ teacher.id }}" name="{{ teacher.id}}">{{ teacher.name }}</option>
+                {% endfor %}
+        </select>
+        <br><button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
+    </form>
+    
+    <div class=course_table>
+        <table>
+            <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th></th></tr>
+            {% for course in courses_lst %}
+            <tr>
+                <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
+                <td>{{course.t_name}}</td>
+                <td>{{course.date}}</td>
+                <td><a href="/delete_course/{{course.id}}"><button id="delete">Delete</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

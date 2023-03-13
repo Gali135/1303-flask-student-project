@@ -1,0 +1,30 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="style.css">
+    <title>Student Info</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    {% for s in students %}
+    <div class="msg" name="msg">
+        <h4>Welcome to student info page, {{ s.name }}</h4>
+       
+    </div>
+    <div class="student_intro" id="studentInfoIntro">
+        {{ msg| safe }}
+    </div>
+    <div class=student_info>
+        <table>
+            <tr><th>Name</th><th>Email</th><th>Courses</th></tr>
+            <tr><td>{{s.name}}</td><td>{{s.email}}</td><td>{{s.courses}}</td></tr>
+        </table>
+        {%endfor%}
+        <!-- <a class="update_button" href="/student/update"><button id="update">Update Info</button></a> -->
+    </div>
+</body>
+
+</html>

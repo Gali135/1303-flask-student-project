@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+    <title>{{students_lst[0].c_name}}</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+    
+    </div>
+    <div class="atten_container">
+        <div class="intro"><h4> Attendance records by name, Course: {{ students_lst[0].c_name }}</h4></div>
+        
+        <form action="" method="post">
+            <input type="hidden" name="course_id" value="{{id}}">
+            <input type="date" name="date" id="localDate" value="{{atten_date}}">
+            <select name="name" id="name">
+                <option value="" disabled selected hidden>Pick a student</option>
+                {% for student in students_lst%}
+                <option value="{{student.s_id}}">{{student.s_name}}</option>
+                {%endfor%}
+            </select>
+            <button type="submit">submit</button>
+        </form>
+        <div class="msg"><h4>{{msg}}</h4></div>
+        <table>
+            <tr><th>Name</th><th>Date</th><th>Present</th></tr>
+            {% for val in results %}
+                <tr><td><a href="students/{{val.s_id}}">{{val.s_name}}</td> <td>{{val.date}}</td><td>{{val.present}}</td></tr>
+            {% endfor %}
+        </table>
+</div>
+    
+</body>
+</html>

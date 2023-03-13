@@ -1,0 +1,21 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="style.css">
+    <title>Login</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="msg" name="msg">
+        <h1>Welcome to the login page</h1>
+        
+    </div>
+
+    <div class="intro" id="loginIntro">
+        {{ msg| safe }}
+    </div>
+</body>
+</html>
