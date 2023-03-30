@@ -58,6 +58,26 @@ def register(student_id, course_id):
     execute_query(
         f"INSERT INTO students_courses (student_id, course_id) VALUES ('{student_id}','{course_id}')")
     return redirect(url_for('home'))
+
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == "POST":
+        date=datetime.datetime.now()
+        date=date.strftime("%x")
+        message=request.form["message"]
+        message_to_db=execute_query(f"INSERT INTO messages (message , date) VALUES ('{message}', '{date}')")
+    return render_template("admin.html")
+
+@app.route('/message', methods=['GET', 'POST'])
+def message():
+    str=execute_query("SELECT message FROM messages")
+    messages = []
+    for s in str:
+        messages.append(s[0])
+    a=messages[-5:]
+    return a
+
    
 @app.route('/student_info', methods=['GET', 'POST'])
 def student_info():

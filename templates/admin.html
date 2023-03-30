@@ -1,0 +1,32 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+
+    <title>Add Course</title>
+</head>
+<body>
+   
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="admin_links_comp">
+        <ul class="admin_links">
+            <li><a href="/add_course"> Add Course</a></li>
+            <li><a href="/courses/attendance">Attendance</a></li>
+        </ul>    
+        <!-- <form action="/search" method="POST">
+            <input type="text" name="word" autofocus>
+            <button type="submit">Search</button>
+        </form> -->
+    </div>
+    
+    <form action="/admin" method="post">
+        <div class=title>Add Course</div><br>
+        <input type="text" id="message" name="message" placeholder="Enter Message"><br>
+        <br><button id="submitMessage" type="submit" onclick="addMessage()">submit</button>
+    </form>
+    
+    
+</body>
+</html>

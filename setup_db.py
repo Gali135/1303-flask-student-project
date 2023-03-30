@@ -18,6 +18,13 @@ def execute_query(sql):
 
 def create_tables():
     execute_query("""
+         CREATE TABLE IF NOT EXISTS messages (
+            message TEXT NOT NULL,
+            date TEXT NOT NULL
+            )
+        """)
+    
+    execute_query("""
     CREATE TABLE IF NOT EXISTS teachers (
             teacher_id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
