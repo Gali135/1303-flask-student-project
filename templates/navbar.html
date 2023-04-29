@@ -4,10 +4,16 @@
     <nav>
         <ul class="nav_links">
             <li><a href="/"> Home</a></li>
-            <li><a href="/admin">Admin</a></li>
-            <!-- <li><a href="/add_course"> Add Course</a></li> -->
-            <li><a href="/student_info">Student info</a></li>
-            <!-- <li><a href="/courses/attendance">Attendance</a></li> -->
+            <li class="dropdown">
+                <a href="#">Admin</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/admin"> Add Course</a></li>
+                    <li><a href="/courses/attendance"> Attendance</a></li>
+                    <li><a href="#"> Messages</a></li>
+                </ul>
+            </li>
+            <li><a href="/courses"> Our Courses</a></li>
+            <li><a href="/student_info">personal info</a></li>
         </ul>    
         <!-- <form action="/search" method="POST">
             <input type="text" name="word" autofocus>
