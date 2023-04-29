@@ -68,6 +68,33 @@ header {
 .nav_links li a:hover{
     color: orange;
 }
+.nav_links li:last-child {
+    margin-right: 0;
+  }
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown-menu li {
+    margin: 0;
+  }
+  
+  .dropdown-menu li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu li a:hover {
+    background-color: #555;
+  }
 button{
     
     padding: 9px 25px;
