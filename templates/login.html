@@ -17,5 +17,9 @@
     <div class="intro" id="loginIntro">
         {{ msg| safe }}
     </div>
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
 </body>
 </html>
