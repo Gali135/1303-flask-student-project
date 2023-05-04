@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from classes import Messages, Student
+from classes import Messages, Student, Course
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -60,6 +60,7 @@ def register(student_id, course_id):
     return redirect(url_for('home'))
 
 
+#messages
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == "POST":
@@ -72,7 +73,7 @@ def message():
     messages=Messages.show_last5
     return messages
 
-   
+#student   
 @app.route('/student_info', methods=['GET', 'POST'])
 def student_info():
     # if  session["role"] != 1  :
@@ -89,6 +90,7 @@ def student_update():
     Student.update(email=email,name=name)
     return url_for("student_info")
 
+#course
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
     # if session['role']!= 3:
@@ -135,10 +137,13 @@ def add_course():
         else:
             #teacher_id=execute_query(f"SELECT teachers_id FROM teachers WHERE name={teacher_name}")
 
-            exe = execute_query(
-                f"INSERT INTO active_courses (name, teacher_id ,date) VALUES ('{course_name}','{teacher_id}','{start_date}')")
-            msg = "The Course Was Added Successfully !"
-
+            try:
+                Course.add(course_name, teacher_id,start_date)
+            except:
+                msg="something went wrong, please try again."
+            else:
+                msg = "The Course Was Added Successfully !"
+                
             return redirect(url_for("add_course"))
 
 

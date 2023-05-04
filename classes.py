@@ -51,4 +51,32 @@ class Student:
         f"""UPDATE students SET email='{email}' WHERE= name='{name}' """)
 
     
+#go over again, parts and details are missing
+class Course:
+    def __init__(self, course_id:int,course_name:str, date:str, teacher_id:int):
+        course_id=course_id
+        course_name=course_name
+        date=date
+        teacher_id=teacher_id
+    
+    def add(course_name, teacher_id,start_date): 
+        execute_query(
+            f"INSERT INTO active_courses (name, teacher_id ,date) VALUES ('{course_name}','{teacher_id}','{start_date}')")
 
+    def show_all():
+         pass
+    def delete():
+        pass
+
+    
+class Teacher:
+    def __init__(delf, teacher_id:int,name:str):
+        teacher_id=teacher_id
+        name=name
+
+    def show_all():
+        pass
+    def update():
+        pass
+    def delete():
+        pass
