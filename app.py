@@ -85,21 +85,7 @@ def student_info():
     #     #if  session["role"] not in [1,3]
     #     return abort(403)
     email=session["username"]
-    info=execute_query(f"SELECT student_id,name FROM students WHERE email='{email}'")
-    session["id"]=info[0][0]
-    #why info=[]? and not a tuple?
-    course_name=execute_query(f"""
-    SELECT students_courses.course_id , active_courses.name FROM active_courses
-    JOIN students_courses
-    ON students_courses.student_id={info[0][0]}
-    WHERE active_courses.course_id=students_courses.course_id""")
-    student=[]
-    studentInfo = namedtuple("Student", ['name', 'email','courses'])
-    studentInfo.name = info[0][1]
-    studentInfo.email = session["username"]
-    studentInfo.courses =course_name[0][1]
-    student.append(studentInfo)
-
+    student=Student.show_info(email)
     return render_template("student_info.html", students=student)
 
 @app.route('/student/update', methods=['GET', 'POST'])
