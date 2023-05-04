@@ -68,9 +68,9 @@ class Course:
     def delete():
         pass
 
-    
+
 class Teacher:
-    def __init__(delf, teacher_id:int,name:str):
+    def __init__(self, teacher_id:int,name:str):
         teacher_id=teacher_id
         name=name
 
@@ -80,3 +80,39 @@ class Teacher:
         pass
     def delete():
         pass
+
+class Attendance:
+    def __init__(self,atten_id:int,student_id:int,student_name:str ,course_id:int,course_name:str,date:str,present:str ):
+        atten_id=atten_id
+        student_id=student_id
+        student_name=student_name
+        course_id=course_id
+        course_name=course_name
+        date=date
+        present=present
+
+    def show_by_id_date_info(course_id, atten_date):
+        info=execute_query(
+                f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+            JOIN attendance on students_courses.student_id=attendance.student_id
+            WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
+            """)
+        return info
+    
+    def show_by_id_date_lst(course_id,atten_date):
+        attendance_lst=[]
+        info=execute_query(
+                f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+            JOIN attendance on students_courses.student_id=attendance.student_id
+            WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
+            """)
+        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")
+        for a_tuple in info:
+            attendance_lst.append(Attendance(
+                course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))
+        return attendance_lst
+    
+    def add(student_id, course_id, atten_date):
+        execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")

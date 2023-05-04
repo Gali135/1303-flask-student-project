@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from classes import Messages, Student, Course
+from classes import Messages, Student, Course,Attendance
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -212,37 +212,17 @@ def atten_date(id):
 def attendance(id,atten_date):
     if request.method=='GET':
         try:
-            info=execute_query(
-                f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
-            JOIN students on students_courses.student_id=students.student_id
-            JOIN attendance on students_courses.student_id=attendance.student_id
-            WHERE students_courses.course_id={id} AND attendance.date='{atten_date}'
-            """)
+            info=Attendance.show_by_id_date(id=id, atten_date=atten_date)
             if info==[]:
                 raise ValueError
         except:
             student_info=execute_query(f"SELECT student_id FROM students_courses WHERE course_id={id}")
             for student in student_info:
-                execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student[0]}, {id}, '{atten_date}') ")
-
-        
-        attendance_lst=[]
-        f_info=execute_query(f"""
-        SELECT attendance.course_id, attendance.student_id,attendance.date, attendance.present, students.name FROM attendance
-        JOIN students on attendance.student_id=students.student_id
-        WHERE attendance.course_id={id} AND date='{atten_date}'""")
-
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")
-        for a_tuple in f_info:
-            attendance=namedtuple("Attendance", ['c_id','c_name','s_id', 's_name','date','present'])
-            attendance.c_id=a_tuple[0]
-            attendance.c_name=course_name
-            attendance.s_id=a_tuple[1]
-            attendance.date=a_tuple[2]
-            attendance.present=a_tuple[3]
-            attendance.s_name=a_tuple[4]
-            attendance_lst.append(attendance)
+                Attendance.add(student_id=student[0], course_id=id, atten_date=atten_date)
+                
+        attendance_lst=Attendance.show_by_id_date_lst(id=id, atten_date=atten_date)
         return render_template("students_attendance.html", attendance_lst=attendance_lst ,atten_date=atten_date,id=id)
+    
     else:
         id=id
         atten_date=request.form['date']
