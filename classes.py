@@ -2,6 +2,30 @@ from setup_db import execute_query
 from datetime import datetime
 from flask import session
 
+
+
+class Messages:
+    def __init__(self,message_id:int, message:str, date:int):
+        self.message_id=message_id
+        self.message=message
+        self.date=date
+    
+    def add(message_str):
+        date=datetime.datetime.now()
+        date=date.strftime("%x")
+        message_to_db=execute_query(
+            f"INSERT INTO messages (message , date) VALUES ('{message_str}', '{date}')")
+
+    def show_last5():
+        str=execute_query("SELECT message FROM messages")
+        messages = []
+        for s in str:
+            messages.append(s[0])
+        last_five=messages[-5:]
+        return last_five     
+
+
+
 class Student:
     def __init__(self,student_id:int, name:str, email:str, course:str) -> None:
         self.student_id=student_id

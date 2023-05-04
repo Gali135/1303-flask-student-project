@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from classes import Student
+from classes import Messages, Student
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -63,20 +63,14 @@ def register(student_id, course_id):
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == "POST":
-        date=datetime.datetime.now()
-        date=date.strftime("%x")
-        message=request.form["message"]
-        message_to_db=execute_query(f"INSERT INTO messages (message , date) VALUES ('{message}', '{date}')")
+        message_str=request.form["message"]
+        Messages.add(message_str=message_str)
     return render_template("admin.html")
 
 @app.route('/message', methods=['GET', 'POST'])
 def message():
-    str=execute_query("SELECT message FROM messages")
-    messages = []
-    for s in str:
-        messages.append(s[0])
-    a=messages[-5:]
-    return a
+    messages=Messages.show_last5
+    return messages
 
    
 @app.route('/student_info', methods=['GET', 'POST'])
