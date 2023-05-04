@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from bs4 import BeautifulSoup
+from classes import Student
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -105,8 +105,8 @@ def student_info():
 @app.route('/student/update', methods=['GET', 'POST'])
 def student_update():
     email=request.form["email"]
-    update=execute_query(f"""UPDATE students SET email='{email}' WHERE= name='{session["username"]}' """)
-            
+    name=session["username"]
+    Student.update(email=email,name=name)
     return url_for("student_info")
 
 @app.route('/add_course', methods=['GET', 'POST'])
