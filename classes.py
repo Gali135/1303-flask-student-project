@@ -114,5 +114,27 @@ class Attendance:
                 course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))
         return attendance_lst
     
+    def show_by_student_date(course_id,student_id, atten_date):
+        info=execute_query(f"""
+        SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+        JOIN students on students_courses.student_id=students.student_id
+        JOIN attendance on students_courses.student_id=attendance.student_id 
+        WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
+        return info
+    
+    def show_by_student_date_lst(course_id,student_id, atten_date):
+        result=[]
+        info=execute_query(f"""
+        SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+        JOIN students on students_courses.student_id=students.student_id
+        JOIN attendance on students_courses.student_id=attendance.student_id 
+        WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
+
+        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
+        for result_tuple in info:
+            result.append(Attendance(
+                course_id=course_id,course_name=course_name,student_id=result_tuple[0],student_name=result_tuple[1],date=result_tuple[2],present=result_tuple[3]))
+
+
     def add(student_id, course_id, atten_date):
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")

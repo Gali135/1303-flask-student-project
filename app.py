@@ -264,10 +264,7 @@ def name_attendance(id):
             students_lst.append(s)
         return render_template("name_attendance.html", students_lst=students_lst)
        
-    else:
-        
-        students_lst=[]
-        results=[]
+    else:    
         id=id
         student_id=request.form["name"]
         atten_date=request.form["date"]
@@ -286,26 +283,13 @@ def name_attendance(id):
             s.s_name=s_tuple[3]
             students_lst.append(s)
 
-        r_info=execute_query(f"""
-        SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
-        JOIN students on students_courses.student_id=students.student_id
-        JOIN attendance on students_courses.student_id=attendance.student_id 
-        WHERE students_courses.course_id={id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
+        r_info=r_info=Attendance.show_by_student_date(course_id=id, student_id=student_id, atten_date=atten_date)
             
         if r_info==[]:
             msg="No such records, pleas try a different date "
             return render_template("name_attendance.html", students_lst=students_lst ,results=results,atten_date=atten_date, msg=msg)
             
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")
-        for result_tuple in r_info:
-            attendance=namedtuple("Attendance", ['c_id','c_name','s_id', 's_name','date','present'])
-            attendance.c_id=id
-            attendance.c_name=course_name
-            attendance.s_id=result_tuple[0]
-            attendance.s_name=result_tuple[1]
-            attendance.date=result_tuple[2]
-            attendance.present=result_tuple[3]
-            results.append(attendance)
+        results=Attendance.show_by_student_date_lst(course_id=id, student_id=student_id, atten_date=atten_date)
 
         return render_template("name_attendance.html", students_lst=students_lst ,results=results,atten_date=atten_date)
 
