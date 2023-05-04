@@ -351,7 +351,7 @@ def search():
 # 
 #     '''
 @app.route('/teachers', methods=['GET', 'POST'])
-def show_teachers():
+def teachers():
     teachers=Teacher.show_all()
     return render_template("teachers.html",  teachers=teachers)
 

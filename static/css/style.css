@@ -398,3 +398,13 @@ select{
     margin-left: 10%;
 
 }
+footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+}
