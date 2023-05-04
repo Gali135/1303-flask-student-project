@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from classes import Messages, Student, Course,Attendance
+from classes import Messages, Student, Course,Attendance,Teacher
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -350,16 +350,10 @@ def search():
 
 # 
 #     '''
-@app.route('/show_teachers', methods=['GET', 'POST'])
+@app.route('/teachers', methods=['GET', 'POST'])
 def show_teachers():
-    teachers=[]
-    teacher=execute_query(f"SELECT teachers.name , teachers.teacher_id FROM teachers")
-    for teacher_tuple in teacher:
-        teacher = namedtuple("Teacher", ['teacher_name', 'id'])
-        teacher.teacher_name = teacher_tuple[0]
-        teacher.id = teacher_tuple[1]
-        teachers.append(teacher)
-    return render_template("show_teachers.html",  teachers=teachers)
+    teachers=Teacher.show_all()
+    return render_template("teachers.html",  teachers=teachers)
 
 @app.route('/teacher/<teacher_id>', methods=['POST'])
 def teacher(teacher_id):

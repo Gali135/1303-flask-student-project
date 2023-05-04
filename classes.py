@@ -70,12 +70,21 @@ class Course:
 
 
 class Teacher:
-    def __init__(self, teacher_id:int,name:str):
+    def __init__(self, teacher_id:int,name:str, email:str, course_name:str, course_id:str):
         teacher_id=teacher_id
         name=name
+        email=email
+        course_name=course_name
+        course_id=course_id
 
     def show_all():
-        pass
+        teachers=[]
+        teacher=execute_query(f"SELECT teachers.name , teachers.teacher_id FROM teachers")
+        for teacher_tuple in teacher:
+            teachers.append(Teacher(name=teacher_tuple[0],teacher_id=teacher_tuple[1]))
+        return teachers
+
+
     def update():
         pass
     def delete():
