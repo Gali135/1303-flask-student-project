@@ -79,9 +79,13 @@ class Teacher:
 
     def show_all():
         teachers=[]
-        teacher=execute_query(f"SELECT teachers.name , teachers.teacher_id FROM teachers")
+        teacher=execute_query(f"""
+                        SELECT teachers.teacher_id, teachers.name, teachers.email , active_courses.name, active_courses.course_id
+                        FROM teachers
+                        JOIN active_courses ON active_courses.teacher_id = teachers.teacher_id
+                        """)
         for teacher_tuple in teacher:
-            teachers.append(Teacher(name=teacher_tuple[0],teacher_id=teacher_tuple[1]))
+            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3], course_id=teacher_tuple[4]))
         return teachers
 
 
