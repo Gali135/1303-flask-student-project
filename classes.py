@@ -70,22 +70,22 @@ class Course:
 
 
 class Teacher:
-    def __init__(self, teacher_id:int,name:str, email:str, course_name:str, course_id:str):
+    def __init__(self, teacher_id:int,name:str, email:str, course_name:str):
         teacher_id=teacher_id
         name=name
         email=email
         course_name=course_name
-        course_id=course_id
+        
 
     def show_all():
         teachers=[]
         teacher=execute_query(f"""
-                        SELECT teachers.teacher_id, teachers.name, teachers.email , active_courses.name, active_courses.course_id
+                        SELECT teachers.teacher_id, teachers.name, teachers.email , active_courses.name
                         FROM teachers
                         JOIN active_courses ON active_courses.teacher_id = teachers.teacher_id
                         """)
         for teacher_tuple in teacher:
-            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3], course_id=teacher_tuple[4]))
+            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3])
         return teachers
 
 
