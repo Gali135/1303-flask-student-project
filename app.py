@@ -354,8 +354,15 @@ def search():
 def all_teachers():
     teachers=Teacher.show_all()
     print("this is the lst=")
-    print(teachers)
-    return render_template("show_teachers.html",  teachers=teachers)
+    print(Teacher.show_all())
+    return render_template("show_teachers.html", teachers=teachers)
+
+
+@app.route('/admin/students', methods=['GET', 'POST'])
+def all_students():
+    students=Student.show_all()
+    return render_template("show_students.html", students=students)
+
 
 # @app.route('/teacher/<teacher_id>', methods=['POST'])
 # def teacher(teacher_id):

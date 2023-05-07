@@ -45,6 +45,18 @@ class Student:
         student=[]
         student.append(Student(name=info[0][1],email=session["username"], course=course_name[0][1]))
 
+    def show_all():
+        students=[]
+        info=execute_query(f"""
+            SELECT students.student_id, students.name, students.email, active_courses.name AS course_name, students_courses.course_id
+            FROM students
+            JOIN students_courses ON students_courses.student_id = students.student_id
+            JOIN active_courses ON active_courses.course_id = students_courses.course_id;
+        """)
+        for student_tuple in info:
+            students.append(Student(
+                student_id=student_tuple[0], name=student_tuple[1],email=student_tuple[2],course=student_tuple[3]))
+        return students
         
     def update(email, name):
         execute_query(
@@ -85,7 +97,7 @@ class Teacher:
                         JOIN active_courses ON active_courses.teacher_id = teachers.teacher_id
                         """)
         for teacher_tuple in teacher:
-            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3]))
+            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3]))
         return teachers
 
 
