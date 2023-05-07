@@ -1,0 +1,30 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+    <title>All Teachers</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+    
+    <div class=container>
+            {% for teacher in teachers %}
+             <div class="card">
+                <!-- <img src="student-profile-picture.jpg" alt="Student Profile Picture"> -->
+                <h2>Name:{{ teacher.name }}</h2>
+                <p>Email: {{ teacher.email }}<p>
+                <p>Courses: {{ teacher.course_name }}</p>
+            </div>
+            {% endfor %}
+        </table>
+    </div>
+   
+   
+
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+</html>

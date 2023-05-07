@@ -350,22 +350,36 @@ def search():
 
 # 
 #     '''
-@app.route('/teachers', methods=['GET', 'POST'])
-def teachers():
+@app.route('/admin/teachers', methods=['GET', 'POST'])
+def all_teachers():
     teachers=Teacher.show_all()
-    return render_template("teachers.html",  teachers=teachers)
+    print("this is the lst=")
+    print(teachers)
+    return render_template("show_teachers.html",  teachers=teachers)
 
-@app.route('/teacher/<teacher_id>', methods=['POST'])
-def teacher(teacher_id):
-    courses=execute_query(f"SELECT active_course.name, active_courses.course_id FROM active_corses WHERE teacher_id={teacher_id}")
-    info={}
-    for i in range(len(courses)):
-        info[f"{course[0][i]}"]={"students":[f"""
-        SELECT students_courses.student_id,students.name, students_corses.grade FROM students
-        LEFT JOIN students_courses 
-        ON students_courses.student_id
-        WHERE students_courses.course_id={course[1][i]}"""]}
-        #makes no sense!
+# @app.route('/teacher/<teacher_id>', methods=['POST'])
+# def teacher(teacher_id):
+#     courses=execute_query(f"SELECT active_course.name, active_courses.course_id FROM active_corses WHERE teacher_id={teacher_id}")
+#     info=[]
+#     for t_tuple in courses:
+#             s=namedtuple("TeacherC", ['c_id','c_name'])
+#             s.c_name=t_tuple[0]
+#             s.c_id=t_tuple[1]
+#             info.append(s)
+#     return render_template("#.html" info=info)
+
+@app.route('/teacher/<techer_id>/<course_id>', methods=['POST'])
+def method_name():
+    pass
+    
+            
+    # for i in range(len(courses)):
+    #     info[f"{course[0][i]}"]={"students":[f"""
+    #     SELECT students_courses.student_id,students.name, students_corses.grade FROM students
+    #     LEFT JOIN students_courses 
+    #     ON students_courses.student_id
+    #     WHERE students_courses.course_id={course[1][i]}"""]}
+    #     #makes no sense!
 
     
 @app.route('/logout')

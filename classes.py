@@ -85,7 +85,7 @@ class Teacher:
                         JOIN active_courses ON active_courses.teacher_id = teachers.teacher_id
                         """)
         for teacher_tuple in teacher:
-            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3])
+            teachers.append(Teacher(teacher_id=teacher_tuple[0],name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3]))
         return teachers
 
 
