@@ -66,10 +66,10 @@ class Student:
 #go over again, parts and details are missing
 class Course:
     def __init__(self, course_id:int,course_name:str, date:str, teacher_id:int):
-        course_id=course_id
-        course_name=course_name
-        date=date
-        teacher_id=teacher_id
+        self.course_id=course_id
+        self.course_name=course_name
+        self.date=date
+        self.teacher_id=teacher_id
     
     def add(course_name, teacher_id,start_date): 
         execute_query(
@@ -83,10 +83,10 @@ class Course:
 
 class Teacher:
     def __init__(self, teacher_id:int,name:str, email:str, course_name:str):
-        teacher_id=teacher_id
-        name=name
-        email=email
-        course_name=course_name
+        self.teacher_id=teacher_id
+        self.name=name
+        self.email=email
+        self.course_name=course_name
         
 
     def show_all():
@@ -108,13 +108,13 @@ class Teacher:
 
 class Attendance:
     def __init__(self,atten_id:int,student_id:int,student_name:str ,course_id:int,course_name:str,date:str,present:str ):
-        atten_id=atten_id
-        student_id=student_id
-        student_name=student_name
-        course_id=course_id
-        course_name=course_name
-        date=date
-        present=present
+        self.atten_id=atten_id
+        self.student_id=student_id
+        self.student_name=student_name
+        self.course_id=course_id
+        self.course_name=course_name
+        self.date=date
+        self.present=present
 
     def show_by_id_date_info(course_id, atten_date):
         info=execute_query(
