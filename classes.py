@@ -135,7 +135,7 @@ class Attendance:
             JOIN attendance on students_courses.student_id=attendance.student_id
             WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
             """)
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")
+        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
         for a_tuple in info:
             attendance_lst.append(Attendance(
                 course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))

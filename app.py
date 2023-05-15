@@ -236,7 +236,7 @@ def set():
         student_id =request.form["student_id"]
         present = request.form['my_radio']
 
-        set=execute_query(f"""
+        set_i=execute_query(f"""
         UPDATE attendance
         SET present = '{present}'
         WHERE course_id ={course_id} AND student_id={student_id} AND date='{date}'""")
