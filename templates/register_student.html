@@ -1,0 +1,43 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+
+    <title>Register Student</title>
+</head>
+<body>
+   
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+        <!-- <form action="/search" method="POST">
+            <input type="text" name="word" autofocus>
+            <button type="submit">Search</button>
+        </form> -->
+    </div>
+   
+    <form action="/register" method="GET">
+        <div class=title>Register Student</div><br>
+        <label for="students">Choose a student:</label>
+        <select name="students" id="students">
+            <option disabled selected>Choose a student</option>
+            {% for s in students_lst %}
+                <option value="{{s.s_id}}">{{s.s_name}}</option>
+            {%endfor%}
+        </select>     
+        <label for="courses">Choose a course:</label>
+        <select name="courses" id="courses">
+            <option disabled selected>Choose course</option>
+            {% for c in courses_lst %}
+                <option value="{{c.c_id}}">{{c.c_name}}-{{c.date}}</option>
+            {%endfor%}
+        </select>       
+        <br><button id="submitMessage" type="submit" onclick="addMessage()">submit</button>
+    </form>
+    
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+</html>

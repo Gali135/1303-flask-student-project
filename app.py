@@ -50,9 +50,37 @@ def login():
         </form>'''
     return render_template("login.html", msg=msg)
 
+@app.route('/admin/register_student', methods=['GET', 'POST'])
+def register_student():
+    if request.method=="GET":
+        students=[]
+        courses=[]
+        s=execute_query("SELECT student_id, name FROM students ORDER BY name ASC")
+        for tuple in s:
+            si=namedtuple("Students", ['s_id','s_name'])
+            si.s_id=tuple[0]
+            si.s_name=tuple[1]
+            students.append(si)
+        c=execute_query("SELECT course_id, name, date  FROM active_courses ORDER BY name ASC")
+        for tuple in c:
+            ci=namedtuple("Courses", ['c_id','c_name', 'date'])
+            ci.c_id=tuple[0]
+            ci.c_name=tuple[1]
+            ci.date=tuple[2]
+            courses.append(ci)
+        return render_template("register_student.html", students_lst=students, courses_lst=courses)
+    else:
+        student_id=request.form["students"]
+        course_id=request.form["courses"]
+        redirect(url_for(f"register({student_id},{course_id})"))
+        return
 
-@app.route('/register/<student_id>/<course_id>', methods=['GET', 'POST'])
-def register(student_id, course_id):
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    student_id=request.args.get("students")
+    course_id=request.args.get("courses")
     # if session.get("role","anonymous")=='admin':
     #     return 'To see this page please log in'
     execute_query(
