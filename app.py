@@ -109,7 +109,22 @@ def student_info():
     #     return abort(403)
     email=session["username"]
     student=Student.show_info(email)
-    return render_template("student_info.html", students=student)
+    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")[0][0]
+    course_info=[]
+    ci=execute_query(f"""
+        SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
+        JOIN students_courses
+        ON students_courses.student_id={id}
+        WHERE active_courses.course_id=students_courses.course_id""")
+    for c in ci:
+        course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
+        course.c_id=c[0]
+        course.grade=c[1]
+        course.c_name=c[2]
+        course_info.append(course)
+        
+        
+    return render_template("student_info.html", students=student, course_info=course_info)
 
 @app.route('/student/update', methods=['GET', 'POST'])
 def student_update():

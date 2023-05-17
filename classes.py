@@ -27,24 +27,17 @@ class Messages:
 
 
 class Student:
-    def __init__(self,student_id:int, name:str, email:str, course:str, grade:isinstance) -> None:
+    def __init__(self,student_id:int, name:str, email:str) -> None:
         self.student_id=student_id
         self.name=name
         self.email=email
-        self.course=course
-        self.grade=grade
-    
+       
 
     def show_info(email):
         info=execute_query(f"SELECT student_id,name FROM students WHERE email='{email}'")
         session["id"]=info[0][0]
-        course_name=execute_query(f"""
-        SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
-        JOIN students_courses
-        ON students_courses.student_id={info[0][0]}
-        WHERE active_courses.course_id=students_courses.course_id""")
         student=[]
-        student.append(Student(student_id=info[0][0],name=info[0][1], email=session["username"],course=course_name[0][2] ,grade=course_name[0][1] ))
+        student.append(Student(student_id=info[0][0],name=info[0][1], email=session["username"]))
         return student
     
     def show_all():

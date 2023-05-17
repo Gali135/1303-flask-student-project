@@ -18,11 +18,19 @@
         {{ msg| safe }}
     </div>
     <div class=student_info>
-        <table>
-            <tr><th>Name</th><th>Email</th><th>Courses</th><th>Grade</th></tr>
-            <tr><td>{{s.name}}</td><td>{{s.email}}</td><td>{{s.courses}}</td><td>{{s.course}}</td><td>{{s.grade}}</td></tr>
+        <table >
+            <tr><th>Name</th><th>Email</th><th></th></tr>
+            <tr><td>{{s.name}}</td><td>{{s.email}}</td>
+                <td><a href="/student/{{s.student_id}}/update"><button id="update">Update</button></a></td></tr>
         </table>
         {%endfor%}
+        <table >
+            <tr><th>Courses</th><th>Grade</th></tr>
+            {%for c in course_info%}
+                <tr><td>{{c.c_name}}</td><td>{{c.grade}}</td></tr>
+            {%endfor%}
+
+        </table>
         <!-- <a class="update_button" href="/student/update"><button id="update">Update Info</button></a> -->
     </div>
     <footer>
