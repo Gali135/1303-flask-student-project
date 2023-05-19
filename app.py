@@ -30,7 +30,7 @@ def authenticate(username,password):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     username=execute_query("SELECT username FROM users WHERE user_id=1")[0][0]
-    
+    print(f"email={username}")
     if request.method=='POST':
         
         role=authenticate(username, username)
@@ -102,13 +102,13 @@ def message():
     return messages
 
 #student   
-@app.route('/student_info', methods=['GET', 'POST'])
+@app.route('/student_info', methods=['GET', 'POST']) 
 def student_info():
     # if  session["role"] != 1  :
     #     #if  session["role"] not in [1,3]
     #     return abort(403)
     email=session["username"]
-    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")
+    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")[0][0]
     session["id"]=id
     student=Student.show_info(email)
     
@@ -138,7 +138,7 @@ def student_update():
         n_email=request.form["email"]
         o_email=session["username"]
         Student.update(n_email=n_email,o_email=o_email)
-        session.pop('username',None)
+        session.clear()
         session["username"]="n_email"
         return redirect(url_for("student_info"))
 

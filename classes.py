@@ -55,6 +55,8 @@ class Student:
     def update(n_email, o_email):
         execute_query(
         f"""UPDATE students SET email='{n_email}' WHERE email='{o_email}' """)
+        execute_query(
+        f"""UPDATE users SET username='{n_email}', password='{n_email} WHERE username='{o_email}' """)
 
     
 #go over again, parts and details are missing
