@@ -108,13 +108,15 @@ def student_info():
     #     #if  session["role"] not in [1,3]
     #     return abort(403)
     email=session["username"]
+    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")
+    session["id"]=id
     student=Student.show_info(email)
-    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")[0][0]
+    
     course_info=[]
     ci=execute_query(f"""
         SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
         JOIN students_courses
-        ON students_courses.student_id={id}
+        ON students_courses.student_id={session["id"]}
         WHERE active_courses.course_id=students_courses.course_id""")
     for c in ci:
         course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
@@ -128,10 +130,17 @@ def student_info():
 
 @app.route('/student/update', methods=['GET', 'POST'])
 def student_update():
-    email=request.form["email"]
-    name=session["username"]
-    Student.update(email=email,name=name)
-    return url_for("student_info")
+    if request.method=="GET":
+        email=session["username"]
+        name=execute_query(f"SELECT name FROM students WHERE email='{email}'")[0][0]
+        return render_template ("student_update.html" ,email=email, s_name=name)
+    else:
+        n_email=request.form["email"]
+        o_email=session["username"]
+        Student.update(n_email=n_email,o_email=o_email)
+        session.pop('username',None)
+        session["username"]="n_email"
+        return redirect(url_for("student_info"))
 
 #course
 @app.route('/add_course', methods=['GET', 'POST'])

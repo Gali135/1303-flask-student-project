@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="style.css">
+    <title>Student Info</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="msg" name="msg">
+        <h4>Welcome to update info page, {{s_name}}</h4>
+       
+    <form action="/student/update" method="POST">
+        <label for="email">Enter New Email</label>
+        <input type="email" name="email" id="email" placeholder="{{email}}" autofocus>
+        <input type="submit" value="Update">
+    </form>
+              
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+
+</html>

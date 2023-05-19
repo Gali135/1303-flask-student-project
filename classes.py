@@ -35,9 +35,8 @@ class Student:
 
     def show_info(email):
         info=execute_query(f"SELECT student_id,name FROM students WHERE email='{email}'")
-        session["id"]=info[0][0]
         student=[]
-        student.append(Student(student_id=info[0][0],name=info[0][1], email=session["username"]))
+        student.append(Student(student_id=session["id"],name=info[0][1], email=session["username"]))
         return student
     
     def show_all():
@@ -53,9 +52,9 @@ class Student:
                 student_id=student_tuple[0], name=student_tuple[1],email=student_tuple[2],course=student_tuple[3],grade=student_tuple[4]))
         return students
         
-    def update(email, name):
+    def update(n_email, o_email):
         execute_query(
-        f"""UPDATE students SET email='{email}' WHERE= name='{name}' """)
+        f"""UPDATE students SET email='{n_email}' WHERE email='{o_email}' """)
 
     
 #go over again, parts and details are missing
