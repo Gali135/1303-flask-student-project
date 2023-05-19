@@ -60,6 +60,29 @@ class Student:
 
     
 #go over again, parts and details are missing
+class PublicCourse:
+    def __init__(self,id: int,name :str, description:str, image:str):
+        self.id=id
+        self.name=name
+        self.description=description
+        self.image=image
+
+    def show_info():
+        lst=[]
+        info=execute_query(f"SELECT * FROM courses")
+        for tuple in info:
+            lst.append(PublicCourse(id=tuple[0],name=tuple[1], description=tuple[2],image=tuple[3]))
+        return lst
+
+    def add(name, description,image): 
+        execute_query(
+            f"INSERT INTO courses (name, description ,image) VALUES ('{name}','{description}','{image}')")
+
+    def update(name, change):
+        pass
+    def delete(name):
+        pass
+
 class Course:
     def __init__(self, course_id:int,course_name:str, date:str, teacher_id:int):
         self.course_id=course_id

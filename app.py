@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request, session,abort
-from classes import Messages, Student, Course,Attendance,Teacher
+from classes import Messages, Student, Course,Attendance,Teacher, PublicCourse
 from setup_db import execute_query
 from collections import namedtuple
 import json
@@ -172,6 +172,12 @@ def student_update():
 #course
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
+    courses=PublicCourse.show_info()
+    return render_template("add_course.html", courses=courses)
+    
+
+@app.route('/add_active_course', methods=['GET', 'POST'])
+def add_active_course():
     # if session['role']!= 3:
     #         return abort(403)
     teachers = execute_query("SELECT teacher_id , name FROM teachers")
@@ -199,20 +205,20 @@ def add_course():
         courses_lst.append(course)
 
     if request.method == 'GET':
-        return render_template("add_course.html", teachers_lst=teachers_lst, courses_lst=courses_lst)
+        return render_template("add_active_course.html", teachers_lst=teachers_lst, courses_lst=courses_lst)
     else:
         teacher_id = request.form["teacher_id"]
         course_name = request.form["course_name"]
         start_date=request.form["start_date"]
         if start_date == "":
             msg = "Please choose start date for this course and try again"
-            return render_template("add_course.html", teachers_lst=teachers_lst, msg=msg)
+            return render_template("add_active_course.html", teachers_lst=teachers_lst, msg=msg)
         if teacher_id == "":
             msg = "Please choose teacher for this course and try again"
-            return render_template("add_course.html", teachers_lst=teachers_lst, msg=msg)
+            return render_template("add_active_course.html", teachers_lst=teachers_lst, msg=msg)
         elif course_name == "":
             msg = "Please enter course name and try again"
-            return render_template("add_course.html", teachers_lst=teachers_lst, msg=msg)
+            return render_template("add_active_course.html", teachers_lst=teachers_lst, msg=msg)
         else:
             #teacher_id=execute_query(f"SELECT teachers_id FROM teachers WHERE name={teacher_name}")
 
