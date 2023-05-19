@@ -1,0 +1,44 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="style.css">
+    <title>Teacher COurse Info</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    {% for i in info %}
+    <div class="msg" name="msg">
+        <h4>Welcome to Course {{ i.course_name }} info page, </h4>
+    </div>
+    <table>
+            <tr><th>Course Name</th><th>id</th><th>date</th></tr>
+            {%for x in lst%}
+                <tr><td>{{x.course_name}}</td><td>{{x.course_id}}</td><td>{{x.course_date}}</td></tr>
+            {%endfor%}
+    </table> 
+    <table>
+        <tr><th>Student Name</th><th>Grade</th><th>Avg presence</th></tr>
+        {%for s in students%}
+            <tr><td>{{s.name}}</td><td>{{s.grade}}</td><td>{{s.avgP}}</td></tr>
+        {%endfor%}
+    </table>  
+    <div class="statistics">
+        <img src="#" class="avg_grade" alt="">
+        <img src="#" class="attending_pie" alt="">
+
+    </div>
+    <div class="course_links">
+        <a href="/teacher/{{course_id}}/grade">Set Grades</a>
+        <a href="/attendance/{{course_id}}">Attendance</a>
+    </div>
+       
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+
+</html>

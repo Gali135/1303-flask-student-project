@@ -2,33 +2,34 @@
 {%block head%}
 {% endblock %}
 <link rel="stylesheet" href="style.css">
-    <title>Student Info</title>
+    <title>Teacher Info</title>
 </head>
 <body>
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
 
-    {% for s in students %}
+    {% for t in teachers %}
     <div class="msg" name="msg">
-        <h4>Welcome to student info page, {{ s.name }}</h4>
+        <h4>Welcome to teacher info page, {{ t.name }}</h4>
        
     </div>
     <div class="student_intro" id="studentInfoIntro">
         {{ msg| safe }}
     </div>
     <div class=student_info>
-        <img src="{{s.name}}.png" class="profile_picture">
+        <img src="{{t.name}}.png" class="profile_picture">
         <table >
             <tr><th>Name</th><th>Email</th><th></th></tr>
-            <tr><td>{{s.name}}</td><td>{{s.email}}</td>
-                <td><a href="/student/update"><button id="update">Update</button></a></td></tr>
+            <tr><td>{{t.name}}</td><td>{{t.email}}</td>
+                <td><a href="/teacher/update"><button id="update">Update</button></a></td></tr>
         </table>
         {%endfor%}
+        <p>Please click on course to see ferther details. </p>
         <table >
-            <tr><th>Courses</th><th>Grade</th></tr>
+            <tr><th>Courses</th><th> Avrage Grade</th></tr>
             {%for c in course_info%}
-                <tr><td>{{c.c_name}}</td><td>{{c.grade}}</td></tr>
+                <tr><td><a href="/teacher/{{teachers.id}}/{{c.id}}">{{c.c_name}}</a></td><td>{{c.grade}}</td></tr>
             {%endfor%}
 
         </table>

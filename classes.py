@@ -103,8 +103,7 @@ class Teacher:
         pass
 
 class Attendance:
-    def __init__(self,atten_id:int,student_id:int,student_name:str ,course_id:int,course_name:str,date:str,present:str ):
-        self.atten_id=atten_id
+    def __init__(self,student_id:int,student_name:str ,course_id:int,course_name:str,date:str,present:str ):
         self.student_id=student_id
         self.student_name=student_name
         self.course_id=course_id
@@ -124,17 +123,18 @@ class Attendance:
     def show_by_id_date_lst(course_id,atten_date):
         attendance_lst=[]
         info=execute_query(
-                f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+            f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
             JOIN students on students_courses.student_id=students.student_id
             JOIN attendance on students_courses.student_id=attendance.student_id
             WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
             """)
+       
         course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
         for a_tuple in info:
             attendance_lst.append(Attendance(
                 course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))
         return attendance_lst
-    
+
     def show_by_student_date(course_id,student_id, atten_date):
         info=execute_query(f"""
         SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
@@ -159,3 +159,4 @@ class Attendance:
 
     def add(student_id, course_id, atten_date):
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")
+Attendance.show_by_id_date_info(4, '2023-05-19')

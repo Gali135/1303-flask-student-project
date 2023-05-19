@@ -1,0 +1,36 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="style.css">
+    <title>Teacher Gradeing</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="msg" name="msg">
+        <h4>Welcome to teacher grades portal, {{s_name}}</h4>
+       
+        <div class="container">
+            <ul>
+                {% for g in gardes_lst%}
+                <li>
+                    <form action="/set_grade" method="post">
+                        <label class="name_lable">{{g.s_name}}</label>
+                        <input type="hidden" id="course_id" name="course_id" value="{{g.c_id}}">
+                        <input type="hidden" id="student_id" name="student_id" value="{{g.s_id}}">
+                        <input type="number" id="grade" name="grade" placeholder="{{g.grade}}">
+                        <button id="submitAtten" type="submit">Set</button>
+                    </form>
+                </li>
+                {% endfor %}
+            </ul>
+              
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+
+</html>

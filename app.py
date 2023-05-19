@@ -15,8 +15,6 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def db_messages():
     messages=["Hello! welcome to home page"]
     messages+= execute_query(f"SELECT message, date FROM messages")
-   
-    print(messages)
     return messages
 
 messages=db_messages()
@@ -293,7 +291,7 @@ def atten_date(id):
 def attendance(id,atten_date):
     if request.method=='GET':
         try:
-            info=Attendance.show_by_id_date(id=id, atten_date=atten_date)
+            info=Attendance.show_by_id_date_info(course_id=id, atten_date=atten_date)
             if info==[]:
                 raise ValueError
         except:
@@ -301,7 +299,7 @@ def attendance(id,atten_date):
             for student in student_info:
                 Attendance.add(student_id=student[0], course_id=id, atten_date=atten_date)
                 
-        attendance_lst=Attendance.show_by_id_date_lst(id=id, atten_date=atten_date)
+        attendance_lst=Attendance.show_by_id_date_lst(course_id=id, atten_date=atten_date)
         return render_template("students_attendance.html", attendance_lst=attendance_lst ,atten_date=atten_date,id=id)
     
     else:
@@ -320,7 +318,8 @@ def set():
         set_i=execute_query(f"""
         UPDATE attendance
         SET present = '{present}'
-        WHERE course_id ={course_id} AND student_id={student_id} AND date='{date}'""")
+        WHERE course_id ={course_id} AND student_id={student_id} AND date='{date}'
+        """)
 
     return redirect(url_for("attendance" ,atten_date=date, id=course_id ))
 
