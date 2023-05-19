@@ -11,7 +11,7 @@ class Messages:
         self.date=date
     
     def add(message_str):
-        date=datetime.datetime.now()
+        date=datetime.now()
         date=date.strftime("%x")
         message_to_db=execute_query(
             f"INSERT INTO messages (message , date) VALUES ('{message_str}', '{date}')")

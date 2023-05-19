@@ -5,7 +5,7 @@
     <title>Add Course</title>
 </head>
 <body>
-   
+    <script type="text/babel" src="/static/add-form.js"></script>
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
@@ -25,11 +25,7 @@
         </ul>
     </div>
 
-    <form action="/admin" method="post">
-        <div class=title>Add Message</div><br>
-        <input type="text" id="message" name="message" placeholder="Enter Message"><br>
-        <br><button id="submitMessage" type="submit" onclick="addMessage()">submit</button>
-    </form>
+    <div id="addForm"></div>
     
     <footer>
         {% include 'footer.html' %}

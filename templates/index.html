@@ -9,16 +9,20 @@
     {%block content%}
     {% endblock %}
 
+    <script type="text/babel" src="/static/counter.js"></script>
+    <script type="text/babel" src="/static/messages.js" defer></script>
+    <div id="Hmessages"></div>
+    <div id="counter"></div>
     <div class="msg" name="msg">
         <h1>Welcome to the home page</h1>
         
-    </div>
+    <!-- </div>
     <div class="messages" id="messages"></div>
     <div class="intro" id="indexIntro">
         {{ msg| safe }}
     </div>
    
-    <div id=messages></div>
+    <div id=messages></div> -->
     
     <footer>
         {% include 'footer.html' %}

@@ -12,11 +12,20 @@ id=False
 app = Flask(__name__)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+def db_messages():
+    messages=["Hello! welcome to home page"]
+    messages+= execute_query(f"SELECT message, date FROM messages")
+   
+    print(messages)
+    return messages
+
+messages=db_messages()
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     results={}
     #taking down tenporarly render_template("index.html", results=results)
+    session["prev_messages"]=len(messages)
     return render_template("index.html")
 
 def authenticate(username,password):
@@ -96,10 +105,30 @@ def admin():
         Messages.add(message_str=message_str)
     return render_template("admin.html")
 
-@app.route('/message', methods=['GET', 'POST'])
-def message():
-    messages=Messages.show_last5
-    return messages
+@app.route('/messages')
+def get_message():
+    session["prev_messages"]=len(messages)
+    # messages=Messages.show_last5
+    return messages[-5:]
+
+@app.route('/num')
+def method_name1():
+    return str(len(messages))
+
+@app.route('/new_message_counter')
+def counter():
+    session["new_messages"]=len(messages)-session["prev_messages"]
+    return str(session["new_messages"])
+
+@app.route('/add_m', methods=['POST'])
+def add():
+    Messages.add(request.json["message"])
+    return "message added"
+
+@app.route('/add_m')
+def add2():
+    Messages.add(request.json["message"])
+    return "message added"
 
 #student   
 @app.route('/student_info', methods=['GET', 'POST']) 
