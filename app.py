@@ -28,23 +28,27 @@ def home():
     return render_template("index.html")
 
 def authenticate(username,password):
-    role= execute_query(f"SELECT role_id FROM users WHERE username='{username}' AND password='{password}'")
+    try:
+        role= execute_query(f"SELECT role_id FROM users WHERE username='{username}' AND password='{password}'")
+    except:
+        return None
     if role==[]:
         return None
-    else:
-        return role[0][0]
+    return role[0][0]
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    username=execute_query("SELECT username FROM users WHERE role_id=2")[0][0]
+    # username=execute_query("SELECT username FROM users WHERE role_id=2")[0][0]
     if request.method=='POST':
-        
-        x=authenticate(username, username)
+        username=request.form["username"]
+        password=request.form["password"]
+
+        x=authenticate(username, password)
         if x==None:
             return abort(403)
         else:
-            session["role"]=2
+            session["role"]=x
             session["username"]=username
 
     
@@ -93,7 +97,7 @@ def register():
     #     return 'To see this page please log in'
     execute_query(
         f"INSERT INTO students_courses (student_id, course_id) VALUES ('{student_id}','{course_id}')")
-    return redirect(url_for('home'))
+    return redirect(url_for('admin'))
 
 
 #messages
@@ -106,18 +110,18 @@ def admin():
 
 @app.route('/messages')
 def get_message():
-    session["prev_messages"]=len(messages)
-    # messages=Messages.show_last5
-    return messages[-5:]
+    # session["prev_messages"]=len(messages)
+    messages=Messages.show_last5()
+    return messages
 
-@app.route('/num')
-def method_name1():
-    return str(len(messages))
+# @app.route('/num')
+# def method_name1():
+#     return str(len(messages))
 
-@app.route('/new_message_counter')
-def counter():
-    session["new_messages"]=len(messages)-session["prev_messages"]
-    return str(session["new_messages"])
+# @app.route('/new_message_counter')
+# def counter():
+#     session["new_messages"]=len(messages)-session["prev_messages"]
+#     return str(session["new_messages"])
 
 @app.route('/add_m', methods=['POST'])
 def add():
@@ -451,14 +455,14 @@ def courses_attendance():
 
 
 
-@app.route('/attendance/<id>', methods=['GET','POST'])
-def atten_date(id):
-    id=id
+@app.route('/attendance/<course_id>', methods=['GET','POST'])
+def atten_date(course_id):
+    
     if request.method== "GET":
-        return render_template("students_attendance.html" ,id=id)
+        return render_template("students_attendance.html" ,course_id=course_id)
     else:
         id=request.form['course_id']
-        atten_date=request.form['date']
+        atten_date=request.form['local_date']
         return redirect(f"/attendance/{id}/{atten_date}")
 
 @app.route('/attendance/<id>/<atten_date>', methods=['GET', 'POST'])
@@ -474,14 +478,14 @@ def attendance(id,atten_date):
                 Attendance.add(student_id=student[0], course_id=id, atten_date=atten_date)
                 
         attendance_lst=Attendance.show_by_id_date_lst(course_id=id, atten_date=atten_date)
-        return render_template("students_attendance.html", attendance_lst=attendance_lst ,atten_date=atten_date,id=id)
+        return render_template("students_attendance.html", attendance_lst=attendance_lst ,atten_date=atten_date,course_id=id)
     
     else:
         id=id
-        atten_date=request.form['date']
+        atten_date=request.form['local_date']
         return redirect(f"/attendance/{id}/{atten_date}")
     
-@app.route('/set', methods=['GET', 'POST'])
+@app.route('/set_atten', methods=['GET', 'POST'])
 def set():
     if request.method=="POST":
         course_id =request.form["course_id"]

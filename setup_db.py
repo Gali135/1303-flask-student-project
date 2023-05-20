@@ -30,7 +30,7 @@ def create_tables():
             name TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             user_id INTEGER NOT NULL UNIQUE,
-            image BLOB,
+            image TEXT,
             FOREIGN KEY (user_id) REFERENCES users (user_id)
          )
          """)
@@ -49,7 +49,7 @@ def create_tables():
             course_id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             description TEXT,
-            image BLOB
+            image TEXT
             )
          """)
     execute_query("""  
@@ -109,14 +109,16 @@ def create_fake_data(students_num=40 , teacher_num=4):
         email=fake.email()
         execute_query(f"INSERT INTO students (name, email,user_id) VALUES ('{fake.name()}','{email}',{i})")
         execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('{email}','{email}',1)")
-    execute_query(f"INSERT INTO students (name, email,user_id) VALUES ('gali','gali',41)")
-    execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('gali','gali',1)")
+    execute_query(f"INSERT INTO students (name, email,user_id) VALUES ('student','student@test.org',41)")
+    execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('student@test.org','student@test.org',1)")
     i+=1
     for teacher in range(teacher_num):
         i+=1
         emailt=fake.email()
         execute_query(f"INSERT INTO teachers (name, email,user_id) VALUES ('{fake.name()}','{emailt}',{i})")
-        execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('{emailt}','{emailt}',2)") 
+        execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('{emailt}','{emailt}',2)")
+    execute_query(f"INSERT INTO teachers (name, email,user_id) VALUES ('teacher','teacher@test.org',5)")
+    execute_query(f"INSERT INTO users (username, password,role_id) VALUES ('teacher@test.org','teacher@test.org',2)")
     courses=['python','java','html','css','javascript']
     for course_name in courses:
         teacher_ids=[tup[0] for tup in execute_query("SELECT teacher_id FROM teachers")]
@@ -130,7 +132,7 @@ def create_fake_data(students_num=40 , teacher_num=4):
     execute_query("INSERT INTO role (role_id, title) VALUES (1, 'student')")
     execute_query("INSERT INTO role (role_id, title) VALUES (2, 'techer')")
     execute_query("INSERT INTO role (role_id, title) VALUES (3, 'admin')")
-    execute_query("INSERT INTO users (username, password,role_id) VALUES ('admin','admin', 3)")
+    execute_query("INSERT INTO users (username, password,role_id) VALUES ('admin@test.org','admin@test.org', 3)")
     
 
 

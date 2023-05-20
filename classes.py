@@ -18,10 +18,10 @@ class Messages:
             f"INSERT INTO messages (message , date) VALUES ('{message_str}', '{date}')")
 
     def show_last5():
-        str=execute_query("SELECT message FROM messages")
+        str=execute_query("SELECT message,date FROM messages")
         messages = []
         for s in str:
-            messages.append(s[0])
+            messages.append([s[0],s[1]])
         last_five=messages[-5:]
         return last_five     
 
@@ -166,7 +166,7 @@ class Attendance:
     
     def show_by_id_date_lst(course_id,atten_date):
         attendance_lst=[]
-        info=execute_query(
+        info1=execute_query(
             f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
             JOIN students on students_courses.student_id=students.student_id
             JOIN attendance on students_courses.student_id=attendance.student_id
@@ -174,7 +174,7 @@ class Attendance:
             """)
        
         course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
-        for a_tuple in info:
+        for a_tuple in info1:
             attendance_lst.append(Attendance(
                 course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))
         return attendance_lst

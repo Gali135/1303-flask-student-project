@@ -13,10 +13,10 @@
     </div>
     <div class="date" id=date>
         <form action="" method="post">
-            <input type="hidden" name="course_id" value="{{id}}">
-            <input type="date" name="date" id="localDate" value="{{atten_date}}">
+            <input type="hidden" name="course_id" value="{{course_id}}">
+            <input type="date" name="local_date" id="localDate" value="{{atten_date}}">
             <button type="submit">submit</button>
-            <a href="/name_attendance/{{id}}" class="name_serch">Serach by name</a>
+            <a href="/name_attendance/{{course_id}}" class="name_serch">Serach by name</a>
             
         </form>
     </div>
@@ -26,11 +26,11 @@
         <ul>
             {% for at in attendance_lst%}
             <li>
-                <form action="/set" method="post">
+                <form action="/set_atten" method="post">
                     <label class="name_lable">{{at.s_name}}</label>
-                    <input type="hidden" id="course_id" name="course_id" value="{{at.c_id}}">
+                    <input type="hidden" id="course_id" name="course_id" value="{{at.course_id}}">
                     <input type="hidden" id="date" name="date" value="{{at.date}}">
-                    <input type="hidden" id="student_id" name="student_id" value="{{at.s_id}}">
+                    <input type="hidden" id="student_id" name="student_id" value="{{at.student_id}}">
                     <input type="radio" name="my_radio" value="y" {% if at.present == 'y' %}checked{% endif %} onchange="update_session(this.value)">
                     <label for="present">Yes</label>
                     <input type="radio" name="my_radio" value="n" {% if at.present == 'n' %}checked{% endif %} onchange="update_session(this.value)">
