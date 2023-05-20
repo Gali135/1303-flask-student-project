@@ -220,6 +220,7 @@ def avg_presence_course(course_id):
  
 @app.route('/teacher_info', methods=['GET', 'POST']) 
 def teacher_info():
+
     if  session["role"] != 2  :
         return abort(403)
     else: 
@@ -254,15 +255,16 @@ def teacher_info():
 def teacher_update():
     if request.method=="GET":
         email=session["username"]
-        name=execute_query(f"SELECT name FROM students WHERE email='{email}'")[0][0]
-        return render_template ("student_update.html" ,email=email, s_name=name)
+        name=execute_query(f"SELECT name FROM teachers WHERE email='{email}'")[0][0]
+        return render_template ("teacher_update.html" ,email=email, s_name=name)
     else:
         n_email=request.form["email"]
         o_email=session["username"]
-        Student.update(n_email=n_email,o_email=o_email)
+        Teacher.update(n_email=n_email,o_email=o_email)
         session.clear()
-        session["username"]="n_email"
-        return redirect(url_for("student_info"))
+        session["username"]=f"{n_email}"
+        session["role"]=2
+        return redirect(url_for("teacher_info"))
 
 @app.route('/teacher/course/<teacher_id>/<course_id>', methods=['GET', 'POST'])
 def teacher_course_info(teacher_id, course_id):

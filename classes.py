@@ -124,8 +124,12 @@ class Teacher:
         return teachers
 
 
-    def update():
-        pass
+    def update(n_email, o_email):
+        execute_query(
+        f"""UPDATE teachers SET email='{n_email}' WHERE email='{o_email}' """)
+        execute_query(
+        f"""UPDATE users SET username='{n_email}', password='{n_email}' WHERE username='{o_email}' """)
+
     def delete():
         pass
     
@@ -199,5 +203,4 @@ class Attendance:
 
     def add(student_id, course_id, atten_date):
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")
-
 
