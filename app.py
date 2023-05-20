@@ -70,10 +70,11 @@ def register_student():
             students.append(si)
         c=execute_query("SELECT course_id, name, date  FROM active_courses ORDER BY name ASC")
         for tuple in c:
-            ci=namedtuple("Courses", ['c_id','c_name', 'date'])
+            ci=namedtuple("Courses", ['c_id','c_name', 'date','avg'])
             ci.c_id=tuple[0]
             ci.c_name=tuple[1]
             ci.date=tuple[2]
+            ci.avg=Teacher.avg(tuple[0])
             courses.append(ci)
         return render_template("register_student.html", students_lst=students, courses_lst=courses)
     else:
@@ -173,7 +174,49 @@ def student_update():
         return redirect(url_for("student_info"))
 
 #teachers
+def avg_presence_by_id_course(student_id, course_id):
+    atten=[]
+    avg="No Data Available"
+    info=execute_query(f"""
+    SELECT present FROM attendance 
+    WHERE student_id={student_id} AND course_id={course_id}""")
+    for tuple in info:
+            if tuple[0]=="y":
+                atten+=[1]
+            elif tuple[0]=="n":
+               atten+=[0]
+            else:
+                continue
+    if len(atten)>0:
+        avg=statistics.mean(atten)   
+    return avg 
 
+def avg_presence_course(course_id):
+    atten_d=[]
+    atten=[]
+    mid_value=[]
+    avg="No Data Available"
+    date=execute_query(f"""SELECT date FROM attendance WHERE course_id={course_id}""")
+    for date_tuple in date:
+        info=execute_query(f"""
+        SELECT present FROM attendance 
+        WHERE course_id={course_id} AND date='{date_tuple[0]}'""")
+        for tuple in info:
+                if tuple[0]=="y":
+                    atten_d+=[1]
+                elif tuple[0]=="n":
+                    atten_d+=[0]
+                else:
+                    continue
+        if len(atten_d)>0:
+            mid_value=[statistics.mean(atten_d)]
+        atten+=mid_value
+    if len(atten)>0:
+        avg=statistics.mean(atten)
+     
+    return avg 
+
+ 
 @app.route('/teacher_info', methods=['GET', 'POST']) 
 def teacher_info():
     if  session["role"] != 2  :
@@ -219,6 +262,47 @@ def teacher_update():
         session.clear()
         session["username"]="n_email"
         return redirect(url_for("student_info"))
+
+@app.route('/teacher/course/<teacher_id>/<course_id>', methods=['GET', 'POST'])
+def teacher_course_info(teacher_id, course_id):
+    course_info=[]
+    ci=execute_query(f"""
+            SELECT  * FROM active_courses 
+            WHERE course_id={course_id} AND teacher_id={teacher_id}""")
+    for c in ci:
+        course=namedtuple("Courses", ['c_id','c_name','date', 'avg_grade','avg_presence' ])
+        course.c_id=c[0]
+        course.c_name=c[1]
+        course.date=c[3]
+        course.avg_grade=Teacher.avg(c[0])
+        course.avg_presence=avg_presence_course(c[0])
+        course_info.append(course)
+    
+    student_info=[]
+    si=execute_query(f"""
+        SELECT students_courses.student_id, students_courses.course_id, students_courses.grade, students.name 
+        FROM students_courses  
+        JOIN students WHERE students_courses.student_id=students.student_id 
+        AND students_courses.course_id={course_id} """)
+    for s in si:
+        student=namedtuple("Student", ['s_id','s_name', 'grade', 'avg_presence'])
+        student.s_id=s[0]
+        student.s_name=s[3]
+        student.grade=s[2]
+        student.avg_presence=avg_presence_by_id_course(s[0], s[1])
+
+        student_info.append(student)
+    
+    return render_template("teacher_course.html" , student_info=student_info, course_info=course_info )
+
+    
+    
+
+@app.route('/teacher/grade', methods=['GET', 'POST'])
+def method_name():
+    pass
+
+
 
 #course
 @app.route('/add_course', methods=['GET', 'POST'])
@@ -512,9 +596,9 @@ def all_students():
 #             info.append(s)
 #     return render_template("#.html" info=info)
 
-@app.route('/teacher/<techer_id>/<course_id>', methods=['POST'])
-def method_name():
-    pass
+# @app.route('/teacher/<techer_id>/<course_id>', methods=['POST'])
+# def method_name():
+#     pass
     
             
     # for i in range(len(courses)):

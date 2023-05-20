@@ -28,7 +28,7 @@
         <table >
             <tr><th>Courses</th><th> Avrage Grade</th></tr>
             {%for c in course_info%}
-                <tr><td><a href="/teacher/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
+                <tr><td><a href="/teacher/course/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
             {%endfor%}
 
         </table>
