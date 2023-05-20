@@ -12,6 +12,7 @@
     {% for c in course_info %}
     <div class="msg" name="msg">
         <h4>Welcome to Course {{ c.c_name }}- info page </h4>
+        <a href="/teacher_info">< Back To Teacher Info</a>
     </div>
     <table>
             <tr><th>Course Name</th><th>id</th><th>date</th></tr>
@@ -31,8 +32,8 @@
         </ul>
     </div>
     <div class="course_links">
-        <a href="/teacher/{{course_id}}/grade">Set Grades</a>
-        <a href="/attendance/{{course_id}}">Attendance</a>
+        <a href="/teacher/grade/{{c.c_id}}">Set Grades</a>
+        <a href="/attendance/{{c.c_id}}">Attendance</a>
     </div>
     {% endfor %}  
     <footer>

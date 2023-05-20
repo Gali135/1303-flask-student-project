@@ -137,7 +137,7 @@ class Teacher:
         for tuple in grades:
             if tuple[0] != None:
                 grades_lst.append(tuple[0])
-        avg=statistics.mean(grades_lst)
+        avg=round(statistics.mean(grades_lst),2)
         return avg  
    
 

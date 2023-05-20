@@ -188,7 +188,7 @@ def avg_presence_by_id_course(student_id, course_id):
             else:
                 continue
     if len(atten)>0:
-        avg=statistics.mean(atten)   
+        avg=round(statistics.mean(atten),2)   
     return avg 
 
 def avg_presence_course(course_id):
@@ -212,7 +212,8 @@ def avg_presence_course(course_id):
             mid_value=[statistics.mean(atten_d)]
         atten+=mid_value
     if len(atten)>0:
-        avg=statistics.mean(atten)
+        avg=round(statistics.mean(atten),2)
+    
      
     return avg 
 
@@ -298,11 +299,41 @@ def teacher_course_info(teacher_id, course_id):
     
     
 
-@app.route('/teacher/grade', methods=['GET', 'POST'])
-def method_name():
-    pass
+@app.route('/teacher/grade/<course_id>', methods=['GET', 'POST'])
+def teacher_grade(course_id):
+    course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")[0][0]
+    b_info=[session["id"], course_id, course_name]
+    grades_lst=[]
+    info=execute_query(f"""
+        SELECT students_courses.student_id, students_courses.course_id, students_courses.grade, students.name FROM students_courses
+        JOIN students WHERE students_courses.student_id=students.student_id 
+        AND students_courses.course_id = {course_id}""")
+    for s in info:
+        student=namedtuple("Student", ['s_id','c_id','s_name', 'grade'])
+        student.s_id=s[0]
+        student.c_id=s[1]
+        student.s_name=s[3]
+        student.grade=s[2]
+        grades_lst.append(student)
+    
+    
+    return render_template("teacher_grade.html" , grades_lst=grades_lst, b_info=b_info )
+    
+
+@app.route('/set_grade', methods=['GET', 'POST'])
+def set_grade():
+    s_id=request.form["student_id"]
+    c_id=request.form["course_id"]
+    grade=request.form["grade"]
+    
+    set=execute_query(f"""
+        UPDATE students_courses
+        SET grade = {grade}
+        WHERE course_id ={c_id} AND student_id={s_id}""")
+    return redirect(url_for(f"teacher_grade", course_id=c_id))
 
 
+   
 
 #course
 @app.route('/add_course', methods=['GET', 'POST'])
