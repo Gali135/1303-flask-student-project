@@ -4,6 +4,7 @@ from setup_db import execute_query
 from collections import namedtuple
 import json
 import datetime
+import statistics
 
 x = datetime.datetime.now()
 date=x.strftime("%x")
@@ -36,15 +37,14 @@ def authenticate(username,password):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    username=execute_query("SELECT username FROM users WHERE user_id=1")[0][0]
-    print(f"email={username}")
+    username=execute_query("SELECT username FROM users WHERE role_id=2")[0][0]
     if request.method=='POST':
         
-        role=authenticate(username, username)
-        if role==None:
+        x=authenticate(username, username)
+        if x==None:
             return abort(403)
         else:
-            session["role"]=role
+            session["role"]=2
             session["username"]=username
 
     
@@ -131,32 +131,83 @@ def add2():
 #student   
 @app.route('/student_info', methods=['GET', 'POST']) 
 def student_info():
-    # if  session["role"] != 1  :
-    #     #if  session["role"] not in [1,3]
-    #     return abort(403)
-    email=session["username"]
-    id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")[0][0]
-    session["id"]=id
-    student=Student.show_info(email)
-    
-    course_info=[]
-    ci=execute_query(f"""
-        SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
-        JOIN students_courses
-        ON students_courses.student_id={session["id"]}
-        WHERE active_courses.course_id=students_courses.course_id""")
-    for c in ci:
-        course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
-        course.c_id=c[0]
-        course.grade=c[1]
-        course.c_name=c[2]
-        course_info.append(course)
+    if  session["role"] == 2  :
+        redirect(url_for("teacher_info"))
+    elif session["role"]==3:
+        redirect(url_for("admin"))
+    else:
+        email=session["username"]
+        id=execute_query(f"SELECT student_id FROM students WHERE email='{email}'")[0][0]
+        print(f"id= {id}")
+        session["id"]=id
+        student=Student.show_info(email)
         
-        
-    return render_template("student_info.html", students=student, course_info=course_info)
+        course_info=[]
+        ci=execute_query(f"""
+            SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
+            JOIN students_courses
+            ON students_courses.student_id={session["id"]}
+            WHERE active_courses.course_id=students_courses.course_id""")
+        for c in ci:
+            course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
+            course.c_id=c[0]
+            course.grade=c[1]
+            course.c_name=c[2]
+            course_info.append(course)
+            
+            
+        return render_template("student_info.html", students=student, course_info=course_info)
 
 @app.route('/student/update', methods=['GET', 'POST'])
 def student_update():
+    if request.method=="GET":
+        email=session["username"]
+        name=execute_query(f"SELECT name FROM students WHERE email='{email}'")[0][0]
+        return render_template ("student_update.html" ,email=email, s_name=name)
+    else:
+        n_email=request.form["email"]
+        o_email=session["username"]
+        Student.update(n_email=n_email,o_email=o_email)
+        session.clear()
+        session["username"]="n_email"
+        return redirect(url_for("student_info"))
+
+#teachers
+
+@app.route('/teacher_info', methods=['GET', 'POST']) 
+def teacher_info():
+    if  session["role"] != 2  :
+        return abort(403)
+    else: 
+        email=session["username"]
+        id=execute_query(f"SELECT teacher_id FROM teachers WHERE email='{email}'")[0][0]
+        session["id"]=id
+
+        teacher_info=[]
+        ti=execute_query(f"SELECT * FROM teachers WHERE teacher_id={id}")
+        for t in ti:
+            teacher=namedtuple("Teacher", ['t_id','t_name', 'email'])
+            teacher.t_id=t[0]
+            teacher.t_name=t[1]
+            teacher.email=t[2]
+            teacher_info.append(teacher)
+
+        course_info=[]
+        ci=execute_query(f"""
+            SELECT  * FROM active_courses 
+            WHERE teacher_id={id}""")
+        for c in ci:
+            course=namedtuple("Courses", ['c_id','c_name', 'avg_grade' ])
+            course.c_id=c[0]
+            course.c_name=c[1]
+            course.avg_grade=Teacher.avg(c[0])
+            course_info.append(course)
+            
+            
+        return render_template("teacher_info.html", teacher=teacher_info, course_info=course_info)
+
+@app.route('/teacher/update', methods=['GET', 'POST'])
+def teacher_update():
     if request.method=="GET":
         email=session["username"]
         name=execute_query(f"SELECT name FROM students WHERE email='{email}'")[0][0]

@@ -1,6 +1,7 @@
 from setup_db import execute_query
 from datetime import datetime
 from flask import session
+import statistics
 
 
 
@@ -107,7 +108,10 @@ class Teacher:
         self.email=email
         self.course_name=course_name
         
-
+    # def show_info(id):
+    #     info=[]
+    #     teacher=execute_query(f"SELECT * FROM teachers WHERE teacher_id={id}")
+        
     def show_all():
         teachers=[]
         teacher=execute_query(f"""
@@ -124,6 +128,19 @@ class Teacher:
         pass
     def delete():
         pass
+    
+    def avg(course_id):
+        grades_lst=[]
+        grades=execute_query(f"""
+            SELECT grade FROM students_courses
+            WHERE course_id={course_id}""")
+        for tuple in grades:
+            if tuple[0] != None:
+                grades_lst.append(tuple[0])
+        avg=statistics.mean(grades_lst)
+        return avg  
+   
+
 
 class Attendance:
     def __init__(self,student_id:int,student_name:str ,course_id:int,course_name:str,date:str,present:str ):
@@ -182,4 +199,5 @@ class Attendance:
 
     def add(student_id, course_id, atten_date):
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")
-Attendance.show_by_id_date_info(4, '2023-05-19')
+
+
