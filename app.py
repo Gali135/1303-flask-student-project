@@ -34,7 +34,7 @@ def anony_home():
     return render_template("index_anony.html")
 
 
-@app.route('/add_leads', methods=['GET', 'POST'])
+@app.route('/add_lead', methods=['GET', 'POST'])
 def add_leads():
     name=request.form["name"]
     email=request.form["email"]
@@ -42,7 +42,7 @@ def add_leads():
     details=request.form["details"]
     l=execute_query(f"""
         INSERT INTO leads (name, phone ,email, details) 
-        VALUES ('{name}','{phone}','{email}','{details})")""")
+        VALUES ('{name}','{phone}','{email}','{details}')""")
     return redirect(url_for("anony_home"))
 
 
@@ -74,8 +74,8 @@ def login():
         return redirect(url_for('home'))
     msg= '''
         <form action="/login" method="post">
-            <p>Enter username<input type=text name=username>
-            <p>Enter Password<input type=text name=password>
+            <p>Enter username<input type="text" name="username">
+            <p>Enter Password<input type="password" name="password">
             <p><button type="submit">Login</button>
         </form>'''
     return render_template("login.html", msg=msg)
@@ -372,14 +372,17 @@ def add_active_course():
     # if session['role']!= 3:
     #         return abort(403)
     teachers = execute_query("SELECT teacher_id , name FROM teachers")
-    courses = execute_query("""
+    courses=execute_query("SELECT name FROM courses")
+    a_courses = execute_query("""
     SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,teachers.name 
     FROM active_courses 
     left JOIN teachers 
     on active_courses.teacher_id=teachers.teacher_id
     ORDER BY active_courses.name ASC """)
+
     teachers_lst = []
-    courses_lst = []
+    courses_lst=[]
+    a_courses_lst = []
     # what SQL Syntax do i need to use to get courses.name and teachers. name when i only have courses_teachers_id
     for teacher_tuple in teachers:
         teacher = namedtuple("Teacher", ['id', 'name'])
@@ -387,20 +390,26 @@ def add_active_course():
         teacher.name = teacher_tuple[1]
         teachers_lst.append(teacher)
 
-    for course_tuple in courses:
+    for tuple in courses:
+        courses_lst.append(tuple[0])
+
+    for course_tuple in a_courses:
         course = namedtuple("Course", ['id','c_name', 't_name','date'])
         course.id = course_tuple[0]
         course.c_name = course_tuple[1]
         course.date=course_tuple[2]
         course.t_name = course_tuple[3]
-        courses_lst.append(course)
+        a_courses_lst.append(course)
 
     if request.method == 'GET':
-        return render_template("add_active_course.html", teachers_lst=teachers_lst, courses_lst=courses_lst)
+        return render_template("add_active_course.html", teachers_lst=teachers_lst, a_courses_lst=a_courses_lst, courses_lst=courses_lst)
     else:
         teacher_id = request.form["teacher_id"]
         course_name = request.form["course_name"]
         start_date=request.form["start_date"]
+        #the image not connected to db, figure it out. 
+        # image=request.form["image"]
+
         if start_date == "":
             msg = "Please choose start date for this course and try again"
             return render_template("add_active_course.html", teachers_lst=teachers_lst, msg=msg)
@@ -420,7 +429,7 @@ def add_active_course():
             else:
                 msg = "The Course Was Added Successfully !"
                 
-            return redirect(url_for("add_course"))
+            return redirect(url_for("add_active_course"))
 
 
 @app.route('/courses/students/<id>', methods=['GET','POST'])
@@ -589,10 +598,10 @@ def show_courses():
     return render_template("show_courses.html",  courses=courses)
 
 
-@app.route('/delete_course/<course_id>')
+@app.route('/delete_active_course/<course_id>')
 def delete_course(course_id):
     delete=execute_query(f"DELETE FROM active_courses WHERE course_id={course_id}")
-    return redirect(url_for("add_course"))
+    return redirect(url_for("add_active_course"))
 #how do i get the course_id?
     
 

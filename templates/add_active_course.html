@@ -16,10 +16,16 @@
     </div>
     <form action="/add_active_course" method="post">
         <div class=title>Add Course</div><br>
-        <input type="text" id="course_name" name="course_name" placeholder="Enter Course Name"><br>
-        <label for="">Select start date</label>
+        <label for="course_name">Select Course</label>
+        <select name="course_name" id="course_name">
+            <option value="" disabled selected hidden> Select Course</option> 
+            {% for name in courses_lst %}
+                <option value="{{ name }}" name="{{name}}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <br><label for="">Select start date</label>
         <input type="date" name="start_date">
-        <label> Select teacher </label>
+        <br><label> Select Teacher </label>
         <select name="teacher_id" id="teacher_id">
                 <option value="" disabled selected hidden> Select Teacher</option> 
                 {% for teacher in teachers_lst %}
@@ -32,12 +38,12 @@
     <div class=course_table>
         <table>
             <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th></th></tr>
-            {% for course in courses_lst %}
+            {% for course in a_courses_lst %}
             <tr>
                 <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
                 <td>{{course.t_name}}</td>
                 <td>{{course.date}}</td>
-                <td><a href="/delete_course/{{course.id}}"><button id="delete">Delete</button></a></td>
+                <td><a href="/delete_active_course/{{course.id}}"><button id="delete">Delete</button></a></td>
             </tr>
             {% endfor %}
         </table>
