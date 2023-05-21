@@ -529,59 +529,58 @@ def set():
 
     return redirect(url_for("attendance" ,atten_date=date, id=course_id ))
 
-@app.route('/name_attendance/<id>', methods=['GET', 'POST'])
-def name_attendance(id):
-
+@app.route('/name_attendance/<course_id>', methods=['GET', 'POST'])
+def name_attendance(course_id):
     if request.method=='GET':
         
         students_lst=[]
         info=execute_query(f"""
-        SELECT students_courses.course_id, students_courses.student_id ,students_courses.grade, students.name FROM students_courses
-        JOIN students on students_courses.student_id=students.student_id
-        WHERE students_courses.course_id={id}""")
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")[0][0]
+            SELECT students_courses.course_id, students_courses.student_id , students.name, active_courses.name AS course_name FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+			JOIN active_courses on active_courses.course_id={course_id}
+            WHERE students_courses.course_id={course_id}""")
+        
         for s_tuple in info:
-            s=namedtuple("Student", ['c_id','c_name','s_id', 's_name','grade'])
+            s=namedtuple("Student", ['c_id','c_name','s_id', 's_name'])
             s.c_id=s_tuple[0]
-            s.c_name=course_name
             s.s_id=s_tuple[1]
-            s.grade=s_tuple[2]
-            s.s_name=s_tuple[3]
+            s.s_name=s_tuple[2]
+            s.c_name=s_tuple[3]
             students_lst.append(s)
+
         return render_template("name_attendance.html", students_lst=students_lst)
        
     else: 
         students_lst=[]   
-        id=id
         student_id=request.form["name"]
         atten_date=request.form["date"]
 
         info=execute_query(f"""
-        SELECT students_courses.course_id, students_courses.student_id ,students_courses.grade, students.name FROM students_courses
-        JOIN students on students_courses.student_id=students.student_id
-        WHERE students_courses.course_id={id}""")
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={id}")[0][0]
+            SELECT students_courses.course_id, students_courses.student_id , students.name, active_courses.name AS course_name FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+			JOIN active_courses on active_courses.course_id={course_id}
+            WHERE students_courses.course_id={course_id}""")
+        
         for s_tuple in info:
-            s=namedtuple("Student", ['c_id','c_name','s_id', 's_name','grade'])
+            s=namedtuple("Student", ['c_id','c_name','s_id', 's_name'])
             s.c_id=s_tuple[0]
-            s.c_name=course_name
             s.s_id=s_tuple[1]
-            s.grade=s_tuple[2]
-            s.s_name=s_tuple[3]
+            s.s_name=s_tuple[2]
+            s.c_name=s_tuple[3]
             students_lst.append(s)
 
-        r_info=Attendance.show_by_student_date(course_id=id, student_id=student_id, atten_date=atten_date)
-        results=Attendance.show_by_student_date_lst(course_id=id, student_id=student_id, atten_date=atten_date)
+        raw_info=Attendance.show_by_student_date(course_id=course_id, student_id=student_id, atten_date=atten_date)
+        results=Attendance.show_by_student_date_lst(course_id=course_id, student_id=student_id, atten_date=atten_date)
 
-        if r_info==[]:
+        if raw_info==[]:
             msg="No such records, pleas try a different date "
-            return render_template("name_attendance.html", students_lst=students_lst ,results=results,atten_date=atten_date, msg=msg)
-            
-        results=Attendance.show_by_student_date_lst(course_id=id, student_id=student_id, atten_date=atten_date)
+            results=[]
+            return render_template("name_attendance.html", students_lst=students_lst ,results=results ,atten_date=atten_date, msg=msg)
+        return render_template("name_attendance.html", students_lst=students_lst, results=results, atten_date=atten_date)
 
-        return render_template("name_attendance.html", students_lst=students_lst ,results=results,atten_date=atten_date)
-
-    
+@app.route('/submit', methods=['POST'])
+def submit():
+    pass    
        
             
       

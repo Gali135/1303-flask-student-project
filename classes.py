@@ -50,10 +50,10 @@ class Student:
         for tuple in student_info:
             course_lst=[]
             course=execute_query(f"""
-            SELECT active_courses.name ,students_courses.grade, students_courses.course_id
-            FROM students_courses 
-            JOIN active_courses ON active_courses.course_id = students_courses.course_id
-            WHERE students_courses.student_id={tuple[0]};
+                SELECT active_courses.name ,students_courses.grade, students_courses.course_id
+                FROM students_courses 
+                JOIN active_courses ON active_courses.course_id = students_courses.course_id
+                WHERE students_courses.student_id={tuple[0]};
             """)
             for course_tuple in course:
                 #course(name, grade, course_id)
@@ -65,10 +65,10 @@ class Student:
         return students
         
     def update(n_email, o_email):
-        execute_query(
-        f"""UPDATE students SET email='{n_email}' WHERE email='{o_email}' """)
-        execute_query(
-        f"""UPDATE users SET username='{n_email}', password='{n_email} WHERE username='{o_email}' """)
+        execute_query(f"""
+            UPDATE students SET email='{n_email}' WHERE email='{o_email}' """)
+        execute_query(f"""
+            UPDATE users SET username='{n_email}', password='{n_email} WHERE username='{o_email}' """)
 
     
 #go over again, parts and details are missing
@@ -184,8 +184,8 @@ class Attendance:
     
     def show_by_id_date_lst(course_id,atten_date):
         attendance_lst=[]
-        info1=execute_query(
-            f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+        info1=execute_query(f"""
+            SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
             JOIN students on students_courses.student_id=students.student_id
             JOIN attendance on students_courses.student_id=attendance.student_id
             WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
@@ -198,27 +198,29 @@ class Attendance:
         return attendance_lst
 
     def show_by_student_date(course_id,student_id, atten_date):
+        #returning raw data
         info=execute_query(f"""
-        SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
-        JOIN students on students_courses.student_id=students.student_id
-        JOIN attendance on students_courses.student_id=attendance.student_id 
-        WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
+            SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+            JOIN attendance on students_courses.student_id=attendance.student_id 
+            WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
         return info
     
     def show_by_student_date_lst(course_id,student_id, atten_date):
+        #returning list of objects
         result=[]
         info=execute_query(f"""
-        SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
-        JOIN students on students_courses.student_id=students.student_id
-        JOIN attendance on students_courses.student_id=attendance.student_id 
-        WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
+            SELECT students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+            JOIN students on students_courses.student_id=students.student_id
+            JOIN attendance on students_courses.student_id=attendance.student_id 
+            WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}' AND students_courses.student_id={student_id}""")
 
         course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
         for result_tuple in info:
             result.append(Attendance(
                 course_id=course_id,course_name=course_name,student_id=result_tuple[0],student_name=result_tuple[1],date=result_tuple[2],present=result_tuple[3]))
-
-
+        return result
+    
     def add(student_id, course_id, atten_date):
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({student_id}, {course_id}, '{atten_date}') ")
 
