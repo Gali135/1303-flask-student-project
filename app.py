@@ -490,8 +490,8 @@ def atten_date(course_id):
         return render_template("students_attendance.html" ,course_id=course_id)
     else:
         id=request.form['course_id']
-        atten_date=request.form['local_date']
-        return redirect(f"/attendance/{id}/{atten_date}")
+        date=request.form['local_date']
+        return redirect(url_for("attendance",id=id, atten_date=date))
 
 @app.route('/attendance/<id>/<atten_date>', methods=['GET', 'POST'])
 def attendance(id,atten_date):
@@ -510,8 +510,8 @@ def attendance(id,atten_date):
     
     else:
         id=id
-        atten_date=request.form['local_date']
-        return redirect(f"/attendance/{id}/{atten_date}")
+        a_date=request.form['local_date']
+        return redirect(url_for("attendance",id=id, atten_date=a_date))
     
 @app.route('/set_atten', methods=['GET', 'POST'])
 def set():
@@ -550,7 +550,8 @@ def name_attendance(id):
             students_lst.append(s)
         return render_template("name_attendance.html", students_lst=students_lst)
        
-    else:    
+    else: 
+        students_lst=[]   
         id=id
         student_id=request.form["name"]
         atten_date=request.form["date"]
@@ -569,8 +570,9 @@ def name_attendance(id):
             s.s_name=s_tuple[3]
             students_lst.append(s)
 
-        r_info=r_info=Attendance.show_by_student_date(course_id=id, student_id=student_id, atten_date=atten_date)
-            
+        r_info=Attendance.show_by_student_date(course_id=id, student_id=student_id, atten_date=atten_date)
+        results=Attendance.show_by_student_date_lst(course_id=id, student_id=student_id, atten_date=atten_date)
+
         if r_info==[]:
             msg="No such records, pleas try a different date "
             return render_template("name_attendance.html", students_lst=students_lst ,results=results,atten_date=atten_date, msg=msg)
@@ -639,8 +641,6 @@ def search():
 @app.route('/admin/teachers', methods=['GET', 'POST'])
 def all_teachers():
     teachers=Teacher.show_all()
-    print("this is the lst=")
-    print(Teacher.show_all())
     return render_template("show_teachers.html", teachers=teachers)
 
 

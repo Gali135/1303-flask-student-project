@@ -14,8 +14,11 @@
                 <!-- <img src="student-profile-picture.jpg" alt="Student Profile Picture"> -->
                 <h2>Name:{{ teacher.name }}</h2>
                 <p>Email:{{ teacher.email }}<p>
-                <p>Courses:{{ teacher.course_name }}</p>
-            </div>
+                {% for course in teacher.courses %}
+                    <p>Courses: <a href="/teacher/course/{{teacher.teacher_id}}/{{course[1]}}">{{course[0] }}</a></p>
+                {% endfor %}
+
+                </div>
             {% endfor %}
         </table>
     </div>

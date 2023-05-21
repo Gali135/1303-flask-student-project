@@ -1,7 +1,7 @@
 {% include 'header.html' %}
 {%block head%}
 {% endblock %}
-<link rel="stylesheet" href="style.css">
+
     <title>Attendance</title>
 </head>
 <body>
@@ -27,7 +27,7 @@
             {% for at in attendance_lst%}
             <li>
                 <form action="/set_atten" method="post">
-                    <label class="name_lable">{{at.s_name}}</label>
+                    <label class="name_lable">{{at.student_name}}</label>
                     <input type="hidden" id="course_id" name="course_id" value="{{at.course_id}}">
                     <input type="hidden" id="date" name="date" value="{{at.date}}">
                     <input type="hidden" id="student_id" name="student_id" value="{{at.student_id}}">

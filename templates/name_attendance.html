@@ -26,9 +26,11 @@
         <div class="msg"><h4>{{msg}}</h4></div>
         <table>
             <tr><th>Name</th><th>Date</th><th>Present</th></tr>
-            {% for val in results %}
-                <tr><td><a href="students/{{val.s_id}}">{{val.s_name}}</td> <td>{{val.date}}</td><td>{{val.present}}</td></tr>
-            {% endfor %}
+            {%if results%}
+                {% for val in results %}
+                    <tr><td><a href="students/{{val.s_id}}">{{val.s_name}}</td> <td>{{val.date}}</td><td>{{val.present}}</td></tr>
+                {% endfor %}
+            {% endif %}
         </table>
 </div>
 <footer>

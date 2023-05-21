@@ -14,7 +14,9 @@
                 <!-- <img src="student-profile-picture.jpg" alt="Student Profile Picture"> -->
                 <h2>Name: {{ student.name }}</h2>
                 <p>Email: {{ student.email }}<p>
-                <p>Courses: {{ student.course }}</p>
+                {% for course in student.courses %}
+                    <p>Courses: {{course[0] }}</p>
+                {% endfor %}
             </div>
             {% endfor %}
         </table>

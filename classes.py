@@ -28,10 +28,11 @@ class Messages:
 
 
 class Student:
-    def __init__(self,student_id:int, name:str, email:str) -> None:
+    def __init__(self,student_id:int, name:str, email:str,courses) -> None:
         self.student_id=student_id
         self.name=name
         self.email=email
+        self.courses=courses
        
 
     def show_info(email):
@@ -42,15 +43,25 @@ class Student:
     
     def show_all():
         students=[]
-        info=execute_query(f"""
-            SELECT students.student_id, students.name, students.email, active_courses.name AS course_name,students_courses.grade, students_courses.course_id
-            FROM students
-            JOIN students_courses ON students_courses.student_id = students.student_id
-            JOIN active_courses ON active_courses.course_id = students_courses.course_id;
-        """)
-        for student_tuple in info:
+        course_lst=[]
+        
+        
+        student_info=execute_query(f"""SELECT students.student_id, students.name, students.email FROM students""")
+        for tuple in student_info:
+            course_lst=[]
+            course=execute_query(f"""
+            SELECT active_courses.name ,students_courses.grade, students_courses.course_id
+            FROM students_courses 
+            JOIN active_courses ON active_courses.course_id = students_courses.course_id
+            WHERE students_courses.student_id={tuple[0]};
+            """)
+            for course_tuple in course:
+                #course(name, grade, course_id)
+                course_lst.append([course_tuple[0],course_tuple[1],course_tuple[2]])
+                
+    
             students.append(Student(
-                student_id=student_tuple[0], name=student_tuple[1],email=student_tuple[2],course=student_tuple[3],grade=student_tuple[4]))
+                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst))
         return students
         
     def update(n_email, o_email):
@@ -102,25 +113,30 @@ class Course:
 
 
 class Teacher:
-    def __init__(self, teacher_id:int,name:str, email:str, course_name:str):
+    def __init__(self, teacher_id:int,name:str, email:str, courses:str):
         self.teacher_id=teacher_id
         self.name=name
         self.email=email
-        self.course_name=course_name
+        self.courses=courses
         
     # def show_info(id):
     #     info=[]
     #     teacher=execute_query(f"SELECT * FROM teachers WHERE teacher_id={id}")
         
     def show_all():
+        
         teachers=[]
-        teacher=execute_query(f"""
-                        SELECT teachers.teacher_id, teachers.name, teachers.email , active_courses.name
-                        FROM teachers
-                        JOIN active_courses ON active_courses.teacher_id = teachers.teacher_id
-                        """)
+        teacher=execute_query(f"""SELECT teachers.teacher_id, teachers.name, teachers.email FROM teachers""")
         for teacher_tuple in teacher:
-            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],course_name=teacher_tuple[3]))
+            course_lst=[]
+            course=execute_query(f"""
+                SELECT name, course_id FROM active_courses 
+                WHERE teacher_id={teacher_tuple[0]}""")
+            for course_tuple in course:
+                # course_lst(name, course_id)
+                course_lst.append([course_tuple[0],course_tuple[1]])
+
+            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst))
         return teachers
 
 
@@ -134,6 +150,7 @@ class Teacher:
         pass
     
     def avg(course_id):
+        avg="No Data Available"
         grades_lst=[]
         grades=execute_query(f"""
             SELECT grade FROM students_courses
@@ -141,7 +158,8 @@ class Teacher:
         for tuple in grades:
             if tuple[0] != None:
                 grades_lst.append(tuple[0])
-        avg=round(statistics.mean(grades_lst),2)
+        if len(grades_lst)>0:
+            avg=round(statistics.mean(grades_lst),2)
         return avg  
    
 
@@ -156,8 +174,8 @@ class Attendance:
         self.present=present
 
     def show_by_id_date_info(course_id, atten_date):
-        info=execute_query(
-                f"""SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
+        info=execute_query(f"""
+            SELECT students_courses.course_id, students_courses.student_id , students.name , attendance.date, attendance.present FROM students_courses
             JOIN students on students_courses.student_id=students.student_id
             JOIN attendance on students_courses.student_id=attendance.student_id
             WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
@@ -173,10 +191,10 @@ class Attendance:
             WHERE students_courses.course_id={course_id} AND attendance.date='{atten_date}'
             """)
        
-        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")
+        course_name=execute_query(f"SELECT name FROM active_courses WHERE course_id={course_id}")[0]
         for a_tuple in info1:
             attendance_lst.append(Attendance(
-                course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[4],date=a_tuple[2],present=a_tuple[3]))
+                course_id=a_tuple[0],course_name=course_name,student_id=a_tuple[1],student_name=a_tuple[2],date=a_tuple[3],present=a_tuple[4]))
         return attendance_lst
 
     def show_by_student_date(course_id,student_id, atten_date):
