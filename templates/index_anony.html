@@ -1,0 +1,63 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+<link rel="stylesheet" href="/static/css/style.css">
+    <title>Home</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <script type="text/babel" src="/static/counter.js"></script>
+    <script type="text/babel" src="/static/messages.js" defer></script>
+    <div id="Hmessages"></div>
+    <div id="counter"></div>
+    <!-- <div class="msg" name="msg">
+        <h1>Welcome to the home page</h1> -->
+        
+    <div class="image_caruosel"></div>
+
+    <div class="intro">
+        <div class="title">
+            <h1> Tech Academi</h1>
+            <h3> Learn to code from scratch</h3>
+        </div>
+        <div class="title2">
+            <h4>  </h4>
+        </div>
+    </div>
+    <div class="home_stats">
+        <p class="stat_title"> Join in on something big</p>
+        <div class="course_count" id="course_count">
+            <label for="course_count">Courses</label>
+        </div>
+        <div class="user_count" id="user_count">
+            <label for="user_count">Users</label>
+        </div>
+        <div class="working_graduates_per" id="working_graduates_per">
+            <label for="working_graduates_per">Employed gradutes</label>
+        </div>
+    </div>
+    <div class="leads">
+        
+        <form action="/add_lead" method="post">
+            <div class="lead_form_title">
+                <h3> Want to hear more?</h3>
+                <h5>Fill in your details and we'll get back to you shortly</h5>
+            </div>
+            <input type="text" name="name" placeholder="Enter Full Name" required>
+            <input type="text"name="phone" placeholder="Enter Phone Number" required>
+            <input type="text" name="email" placeholder="Enter Email" required>
+            <input type="text" name="details" placeholder="What Do You Want To Know?"><br>
+            <input type="submit">
+        </form>
+    </div>
+    
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+
+</html>

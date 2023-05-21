@@ -99,6 +99,16 @@ def create_tables():
             UNIQUE(course_id,student_id,date)
          )  
          """)
+    execute_query("""
+        CREATE TABLE IF NOT EXISTS leads (
+            lead_id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            phone TEXT NOT NULL,
+            email TEXT,
+            details TEXT
+            
+         )  
+         """)
 
     
 def create_fake_data(students_num=40 , teacher_num=4):

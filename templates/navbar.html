@@ -4,7 +4,12 @@
     <img class="logo" src="/static/img/logo.png" alt="logo">
     <nav>
         <ul class="nav_links" id="navLinks">
+            {% if session['role'] %}
             <li><a href="/"> Home</a></li>
+            {% else %}
+            <li><a href="/home"> Home</a></li>
+            {% endif %}
+
             <li><a href="/courses"> Our Courses</a></li>
             {% if session['role'] == 1%}
             <li id="navInfo"><a href="/student_info" >personal info</a></li>

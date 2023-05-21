@@ -27,6 +27,25 @@ def home():
     session["prev_messages"]=len(messages)
     return render_template("index.html")
 
+@app.route('/home', methods=['GET', 'POST'])
+def anony_home():
+    results={}
+    #taking down tenporarly render_template("index.html", results=results)
+    return render_template("index_anony.html")
+
+
+@app.route('/add_leads', methods=['GET', 'POST'])
+def add_leads():
+    name=request.form["name"]
+    email=request.form["email"]
+    phone=request.form["phone"]
+    details=request.form["details"]
+    l=execute_query(f"""
+        INSERT INTO leads (name, phone ,email, details) 
+        VALUES ('{name}','{phone}','{email}','{details})")""")
+    return redirect(url_for("anony_home"))
+
+
 def authenticate(username,password):
     try:
         role= execute_query(f"SELECT role_id FROM users WHERE username='{username}' AND password='{password}'")
