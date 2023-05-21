@@ -38,7 +38,7 @@ class Student:
     def show_info(email):
         info=execute_query(f"SELECT student_id,name FROM students WHERE email='{email}'")
         student=[]
-        student.append(Student(student_id=session["id"],name=info[0][1], email=session["username"]))
+        student.append(Student(student_id=session["id"],name=info[0][1], email=session["username"],courses=[]))
         return student
     
     def show_all():

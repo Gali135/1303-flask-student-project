@@ -17,22 +17,23 @@
     <div class="student_intro" id="studentInfoIntro">
         {{ msg| safe }}
     </div>
-    <div class=student_info>
+    <div class="student_info">
         <img src="{{s.name}}.png" class="profile_picture">
         <table >
             <tr><th>Name</th><th>Email</th><th></th></tr>
             <tr><td>{{s.name}}</td><td>{{s.email}}</td>
                 <td><a href="/student/update"><button id="update">Update</button></a></td></tr>
         </table>
-        {%endfor%}
+        
         <table >
             <tr><th>Courses</th><th>Grade</th></tr>
             {%for c in course_info%}
-                <tr><td>{{c.c_name}}</td><td>{{c.grade}}</td></tr>
+                <tr><td><a href="/student_course/{{s.student_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.grade}}</td></tr>
             {%endfor%}
 
         </table>
         <!-- <a class="update_button" href="/student/update"><button id="update">Update Info</button></a> -->
+    {%endfor%}
     </div>
     <footer>
         {% include 'footer.html' %}

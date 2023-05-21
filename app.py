@@ -196,6 +196,35 @@ def student_update():
         session["username"]="n_email"
         return redirect(url_for("student_info"))
 
+@app.route('/student_course/<student_id>/<course_id>', methods=['GET', 'POST'])
+def student_course(student_id,course_id):
+        student_info=[]
+        course_info=[]
+        a=execute_query(f"SELECT students_courses.grade FROM students_courses WHERE course_id={course_id} AND student_id={student_id}")
+        b=execute_query(f"SELECT students.name AS student_name FROM students WHERE student_id={student_id}")
+        c=execute_query(f"""
+            SELECT active_courses.name AS course_name, active_courses.teacher_id, teachers.name AS teacher_name,teachers.email 
+            FROM active_courses
+            JOIN teachers ON active_courses.teacher_id=teachers.teacher_id WHERE active_courses.course_id={course_id}
+            """)
+
+        for tuple in c:
+            course=namedtuple("Course", ['course_id','course_name','teacher_name', 'email'])
+            course.course_id=course_id
+            course.course_name=tuple[0]
+            course.teacher_name=tuple[2]
+            course.email=tuple[3]
+            course_info.append(course)
+        
+        student=namedtuple("Student",['grade','per_presence','student_name'])
+        student.grade=a[0][0]
+        student.student_name=b[0][0]  
+        student.per_presence=per_presence_by_id_course(student_id, course_id)
+        student_info.append(student)
+        return render_template("student_course.html", course_info=course_info, student_info=student_info)
+
+
+
 #teachers
 def per_presence_by_id_course(student_id, course_id):
     i=0
@@ -207,7 +236,8 @@ def per_presence_by_id_course(student_id, course_id):
     for tuple in info:
             if tuple[0]=="y":
                 i+=1
-    percentage=(i / dates_num)*100   
+    if i!=0:
+        percentage=(i / dates_num)*100   
     return percentage
 
 def per_presence_course(course_id):
@@ -224,8 +254,8 @@ def per_presence_course(course_id):
                 if tuple[0]=="y":
                     presence+=1
         
-    
-    percentage=(presence/(students_num * dates_num)) * 100
+    if presence !=0:
+        percentage=(presence/(students_num * dates_num)) * 100
     
      
     return percentage
