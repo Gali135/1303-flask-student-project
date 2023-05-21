@@ -22,13 +22,13 @@
     <table>
         <tr><th>Student Name</th><th>Grade</th><th>Avg presence</th></tr>
         {%for s in student_info%}
-            <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.avg_presence}}</td></tr>
+            <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.per_presence}}%</td></tr>
         {%endfor%}
     </table>  
     <div class="statistics">
         <ul>
             <li><p>Avrage Course Grade: {{c.avg_grade}}</p><img src="#" class="avg_grade" alt=""></li>
-            <li><p>Avrage attendance: {{c.avg_presence}}</p><img src="#" class="attending_pie" alt=""></li>
+            <li><p>Avrage attendance: {{c.per_presence}}%</p><img src="#" class="attending_pie" alt=""></li>
         </ul>
     </div>
     <div class="course_links">

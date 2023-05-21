@@ -197,48 +197,38 @@ def student_update():
         return redirect(url_for("student_info"))
 
 #teachers
-def avg_presence_by_id_course(student_id, course_id):
-    atten=[]
-    avg="No Data Available"
+def per_presence_by_id_course(student_id, course_id):
+    i=0
+    percentage="No Data Available"
     info=execute_query(f"""
-    SELECT present FROM attendance 
-    WHERE student_id={student_id} AND course_id={course_id}""")
+        SELECT present FROM attendance 
+        WHERE student_id={student_id} AND course_id={course_id}""")
+    dates_num=len(info)
     for tuple in info:
             if tuple[0]=="y":
-                atten+=[1]
-            elif tuple[0]=="n":
-               atten+=[0]
-            else:
-                continue
-    if len(atten)>0:
-        avg=round(statistics.mean(atten),2)   
-    return avg 
+                i+=1
+    percentage=(i / dates_num)*100   
+    return percentage
 
-def avg_presence_course(course_id):
-    atten_d=[]
-    atten=[]
-    mid_value=[]
-    avg="No Data Available"
+def per_presence_course(course_id):
+    presence=0
+    percentage="No Data Available"
     date=execute_query(f"""SELECT date FROM attendance WHERE course_id={course_id}""")
+    dates_num=len(date)
     for date_tuple in date:
         info=execute_query(f"""
         SELECT present FROM attendance 
         WHERE course_id={course_id} AND date='{date_tuple[0]}'""")
+        students_num=len(info)
         for tuple in info:
                 if tuple[0]=="y":
-                    atten_d+=[1]
-                elif tuple[0]=="n":
-                    atten_d+=[0]
-                else:
-                    continue
-        if len(atten_d)>0:
-            mid_value=[statistics.mean(atten_d)]
-        atten+=mid_value
-    if len(atten)>0:
-        avg=round(statistics.mean(atten),2)
+                    presence+=1
+        
+    
+    percentage=(presence/(students_num * dates_num)) * 100
     
      
-    return avg 
+    return percentage
 
  
 @app.route('/teacher_info', methods=['GET', 'POST']) 
@@ -296,12 +286,12 @@ def teacher_course_info(teacher_id, course_id):
             SELECT  * FROM active_courses 
             WHERE course_id={course_id} AND teacher_id={teacher_id}""")
     for c in ci:
-        course=namedtuple("Courses", ['c_id','c_name','date', 'avg_grade','avg_presence' ])
+        course=namedtuple("Courses", ['c_id','c_name','date', 'avg_grade','per_presence' ])
         course.c_id=c[0]
         course.c_name=c[1]
         course.date=c[3]
         course.avg_grade=Teacher.avg(c[0])
-        course.avg_presence=avg_presence_course(c[0])
+        course.per_presence=per_presence_course(c[0])
         course_info.append(course)
     
     student_info=[]
@@ -311,11 +301,11 @@ def teacher_course_info(teacher_id, course_id):
         JOIN students WHERE students_courses.student_id=students.student_id 
         AND students_courses.course_id={course_id} """)
     for s in si:
-        student=namedtuple("Student", ['s_id','s_name', 'grade', 'avg_presence'])
+        student=namedtuple("Student", ['s_id','s_name', 'grade', 'per_presence'])
         student.s_id=s[0]
         student.s_name=s[3]
         student.grade=s[2]
-        student.avg_presence=avg_presence_by_id_course(s[0], s[1])
+        student.per_presence=per_presence_by_id_course(s[0], s[1])
 
         student_info.append(student)
     
