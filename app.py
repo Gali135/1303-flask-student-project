@@ -419,11 +419,11 @@ def add_active_course():
     teachers = execute_query("SELECT teacher_id , name FROM teachers")
     courses=execute_query("SELECT name FROM courses")
     a_courses = execute_query("""
-    SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,teachers.name 
-    FROM active_courses 
-    left JOIN teachers 
-    on active_courses.teacher_id=teachers.teacher_id
-    ORDER BY active_courses.name ASC """)
+        SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,teachers.name 
+        FROM active_courses 
+        left JOIN teachers 
+        on active_courses.teacher_id=teachers.teacher_id
+        ORDER BY active_courses.name ASC """)
 
     teachers_lst = []
     courses_lst=[]
@@ -479,6 +479,40 @@ def add_active_course():
                 
             return redirect(url_for("add_active_course"))
 
+@app.route('/admin/update/active_course/<course_id>', methods=['GET', 'POST'])
+def update_active_course(course_id):
+    if request.method=="GET":
+
+        a_courses = execute_query(f"""
+            SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,teachers.name 
+            FROM active_courses 
+            left JOIN teachers 
+            on active_courses.teacher_id=teachers.teacher_id
+            WHERE active_courses.course_id={course_id}
+            ORDER BY active_courses.name ASC """)
+        a_courses_lst = []
+        
+        for course_tuple in a_courses:
+            course = namedtuple("Course", ['id','c_name', 't_name','date'])
+            course.id = course_tuple[0]
+            course.c_name = course_tuple[1]
+            course.date=course_tuple[2]
+            course.t_name = course_tuple[3]
+            a_courses_lst.append(course)
+
+
+        return render_template("active_course_update.html", a_courses_lst=a_courses_lst)
+    else:
+        date=request.form["start_date"]
+        file=request.form["file"]
+
+        if file:
+            filename = file.filename
+            file.save(os.path.join('/static/files', filename))
+            
+        a=Course.update(course_id, file, date)  
+        return redirect(url_for("add_active_course"))  
+    
 
 @app.route('/courses/students/<id>', methods=['GET','POST'])
 def student_courses(id):

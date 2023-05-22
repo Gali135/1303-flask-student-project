@@ -1,0 +1,50 @@
+{% include 'header.html' %}
+{%block head%}
+{% endblock %}
+
+    <title>Add Active Course</title>
+</head>
+<body>
+   
+    {% include 'navbar.html' %}
+    {%block content%}
+    {% endblock %}
+
+    <div class="intro" id="addCourseIntro">
+         
+
+    </div>
+
+    {% for course in a_courses_lst %}
+    <form action="/admin/update/active_course/{{course.id}}" method="post" enctype="multipart/form-data">
+        <div class=title>Update Course</div><br>
+        <br><label for="">Select start date</label>
+        <input type="date" name="start_date">
+        <br><label for="file">Upload Syllabus</label>
+        <input type="file" name="file">
+        <br><button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
+    </form>
+    
+    <div class=course_table>
+        <table>
+            <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th>syllabus</th></tr>
+           
+            <tr>
+                <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
+                <td>{{course.t_name}}</td>
+                <td>{{course.date}}</td>
+                {% if course.file %}
+                    <td><a href="/static/files/{{course.file}}" download>Download File</a></td>
+                {% else %}
+                    <td>
+                {% endif %}
+            </tr>
+    {% endfor %}
+        </table>
+    </div>
+    <footer>
+        {% include 'footer.html' %}
+        {%block footer%}
+        {%endblock%}
+</body>
+</html>
