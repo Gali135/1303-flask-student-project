@@ -143,15 +143,16 @@ class PublicCourse:
         pass
 
 class Course:
-    def __init__(self, course_id:int,course_name:str, date:str, teacher_id:int):
+    def __init__(self, course_id:int,course_name:str, date:str, teacher_id:int,file:None):
         self.course_id=course_id
         self.course_name=course_name
         self.date=date
         self.teacher_id=teacher_id
+        self.file=file
     
-    def add(course_name, teacher_id,start_date): 
+    def add(course_name, teacher_id,start_date,file): 
         execute_query(
-            f"INSERT INTO active_courses (name, teacher_id ,date) VALUES ('{course_name}','{teacher_id}','{start_date}')")
+            f"INSERT INTO active_courses (name, teacher_id ,date,file) VALUES ('{course_name}','{teacher_id}','{start_date}','{file}')")
 
     def show_all():
          pass

@@ -40,6 +40,7 @@ def create_tables():
             name TEXT NOT NULL,
             teacher_id INTEGER NOT NULL,
             date TEXT,
+            file TEXT,
             FOREIGN KEY (teacher_id) REFERENCES techers (teacher_id)
             )
         """)

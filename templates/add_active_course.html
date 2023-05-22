@@ -32,18 +32,26 @@
                     <option value="{{ teacher.id }}" name="{{ teacher.id}}">{{ teacher.name }}</option>
                 {% endfor %}
         </select>
+        <br><label for="file">Upload Syllabus</label>
+        <input type="file" name="file">
         <br><button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
     </form>
     
     <div class=course_table>
         <table>
-            <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th></th></tr>
+            <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th>syllabus</th><th></th><th></th></tr>
             {% for course in a_courses_lst %}
             <tr>
                 <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
                 <td>{{course.t_name}}</td>
                 <td>{{course.date}}</td>
-                <td><a href="/delete_active_course/{{course.id}}"><button id="delete">Delete</button></a></td>
+                {% if course.file %}
+                    <td><a href="/static/files/{{course.file}}" download>Download File</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td><a href="/admin/delete/active_course/{{course.id}}"><button id="delete">Delete</button></a></td>
+                <td><a href="/admin/update/active_course/{{course.id}}"><button id="delete">Update</button></a></td>
             </tr>
             {% endfor %}
         </table>

@@ -452,8 +452,11 @@ def add_active_course():
         teacher_id = request.form["teacher_id"]
         course_name = request.form["course_name"]
         start_date=request.form["start_date"]
-        #the image not connected to db, figure it out. 
-        # image=request.form["image"]
+        file = request.files['file']
+
+        if file:
+            filename = file.filename
+            file.save(os.path.join('static/files', filename))
 
         if start_date == "":
             msg = "Please choose start date for this course and try again"
@@ -468,7 +471,7 @@ def add_active_course():
             #teacher_id=execute_query(f"SELECT teachers_id FROM teachers WHERE name={teacher_name}")
 
             try:
-                Course.add(course_name, teacher_id,start_date)
+                Course.add(course_name, teacher_id,start_date,file)
             except:
                 msg="something went wrong, please try again."
             else:
