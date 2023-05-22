@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session,abort
+from flask import Flask, redirect, url_for, render_template, request, session,abort,jsonify
 from classes import Messages, Student, Course,Attendance,Teacher, PublicCourse
 from setup_db import execute_query
 from collections import namedtuple
@@ -692,8 +692,51 @@ def all_students():
     #     ON students_courses.student_id
     #     WHERE students_courses.course_id={course[1][i]}"""]}
     #     #makes no sense!
+@app.route('/listall', methods=['GET', 'POST'])
+def listall():
+    result= Student.json_result()
+    return result
 
-    
+@app.route('/student_search', methods=['GET', 'POST'])
+def student_search():
+    name=request.form["name"]
+    try:
+        results=Student.show_all_search(name)
+        if results != []:
+            return render_template("show_students.html", students=results, back="Show All")
+        return redirect(url_for("all_students"))
+    except:
+        return redirect(url_for("all_students"))
+
+@app.route('/teacher_search', methods=['GET', 'POST'])
+def teacher_search():
+    name=request.form["name"]
+    try:
+        results=Teacher.show_all_search(name)
+        if results != []:
+            return render_template("show_teachers.html", teachers=results, back="Show All")
+        return redirect(url_for("all_teachers"))
+    except:
+        return redirect(url_for("all_teachers"))    
+
+@app.route('/course_search', methods=['GET', 'POST'])
+def course_search():
+    key=request.form["key"]
+    courses=[]
+    course=execute_query(f"""
+        SELECT name, description FROM courses WHERE courses.name  LIKE '%{key}%'""")
+    for course_tuple in course:
+        course = namedtuple("Course", ['course_name', 'desc'])
+        course.course_name = course_tuple[0]
+        course.desc = course_tuple[1]
+        courses.append(course)
+    try:
+        if courses != []:
+            return render_template("show_courses.html", courses=courses, back="Show All")
+        return redirect(url_for("show_courses"))
+    except:
+        return redirect(url_for("show_courses")) 
+
 @app.route('/logout')
 def logout():
     session.clear()

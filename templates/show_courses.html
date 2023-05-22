@@ -7,12 +7,22 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
+
+    <div class="search" >
+        <form action="/course_search" method="post">
+            <input type="text" name="key" placeholder="Search Courses">
+            <input type="submit">
+        </form>
+     </div>
+
+     <a href="/courses"> {{ back }}</a>
+
     <div class="cards_container">
         <ul>
         {% for c in courses%}
             <li>
                 <div class="card">
-                    <img src="/static/img/{{c.course_name }}_logo.png " alt="">
+                    <img src="/static/img/{{c.course_name}}_logo.png" alt="">
                     <h1>{{c.course_name}}</h1>
                     <p>{{c.desc}}</p>
                     <p><button id="">Show more</button></p>

@@ -2,7 +2,8 @@ from setup_db import execute_query
 from datetime import datetime
 from flask import session
 import statistics
-
+import sqlite3
+import json
 
 
 class Messages:
@@ -63,12 +64,56 @@ class Student:
             students.append(Student(
                 student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst))
         return students
+
+    def show_all_search(name):
+        students=[]
+        course_lst=[]
         
+        
+        result=execute_query(f"""
+            SELECT student_id, name , email FROM students WHERE students.name  LIKE '{name}%' 
+            UNION
+            SELECT student_id, name , email FROM students WHERE students.email  LIKE '{name}%' """)
+        for tuple in result:
+            course_lst=[]
+            course=execute_query(f"""
+                SELECT active_courses.name ,students_courses.grade, students_courses.course_id
+                FROM students_courses 
+                JOIN active_courses ON active_courses.course_id = students_courses.course_id
+                WHERE students_courses.student_id={tuple[0]};
+            """)
+            for course_tuple in course:
+                #course(name, grade, course_id)
+                course_lst.append([course_tuple[0],course_tuple[1],course_tuple[2]])
+                
+    
+            students.append(Student(
+                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst))
+        return students
+
+
+
     def update(n_email, o_email):
         execute_query(f"""
             UPDATE students SET email='{n_email}' WHERE email='{o_email}' """)
         execute_query(f"""
             UPDATE users SET username='{n_email}', password='{n_email} WHERE username='{o_email}' """)
+
+    def json_result():
+        conn = sqlite3.connect('students.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT name,email FROM students")
+        info = cursor.fetchall()
+        conn.close()
+
+        # Convert the query results to JSON
+        json_results = []
+        for row in info:
+            row_dict = dict(zip([column[0] for column in cursor.description], row))
+            json_results.append(row_dict)
+
+        return json_results
+
 
     
 #go over again, parts and details are missing
@@ -85,6 +130,7 @@ class PublicCourse:
         for tuple in info:
             lst.append(PublicCourse(id=tuple[0],name=tuple[1], description=tuple[2],image=tuple[3]))
         return lst
+
 
     def add(name, description,image): 
         execute_query(
@@ -139,6 +185,25 @@ class Teacher:
             teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst))
         return teachers
 
+
+    def show_all_search(name):
+        teachers=[]
+        result=execute_query(f"""
+            SELECT teacher_id, name , email FROM teachers WHERE teachers.name  LIKE '{name}%' 
+            UNION
+            SELECT teacher_id, name , email FROM teachers WHERE teachers.email  LIKE '{name}%' """)
+        
+        for teacher_tuple in result:
+            course_lst=[]
+            course=execute_query(f"""
+                SELECT name, course_id FROM active_courses 
+                WHERE teacher_id={teacher_tuple[0]}""")
+            for course_tuple in course:
+                # course_lst(name, course_id)
+                course_lst.append([course_tuple[0],course_tuple[1]])
+
+            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst))
+        return teachers
 
     def update(n_email, o_email):
         execute_query(

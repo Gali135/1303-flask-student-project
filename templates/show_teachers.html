@@ -7,7 +7,17 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-    
+    <div id="root"></div>
+
+    <div class="search" >
+        <form action="/teacher_search" method="post">
+            <input type="text" name="name" placeholder="Enter Email or Name">
+            <input type="submit">
+        </form>
+     </div>
+
+     <a href="/admin/teachers"> {{ back }}</a>
+
     <div class=container>
             {% for teacher in teachers %}
              <div class="info_card">
