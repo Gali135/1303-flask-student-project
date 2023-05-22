@@ -504,13 +504,13 @@ def update_active_course(course_id):
         return render_template("active_course_update.html", a_courses_lst=a_courses_lst)
     else:
         date=request.form["start_date"]
-        file=request.form["file"]
+        file=request.files["file"]
 
         if file:
             filename = file.filename
-            file.save(os.path.join('/static/files', filename))
+            file.save(os.path.join('static/files', filename))
             
-        a=Course.update(course_id, file, date)  
+        a=Course.update(course_id, filename, date)  
         return redirect(url_for("add_active_course"))  
     
 

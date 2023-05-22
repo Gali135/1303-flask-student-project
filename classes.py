@@ -158,13 +158,13 @@ class Course:
          pass
     def update(course_id, file, start_date):
         if file=="" and start_date != "":
-            a=execute_query(f"UPDATE active_courses SET date='{start_date}' WHERE course_id='{course_id}'")
+            a=execute_query(f"UPDATE active_courses SET date='{start_date}' WHERE course_id={course_id}")
             return
         elif file !="" and start_date =="":
-             b=execute_query(f"UPDATE active_courses SET file='{file}' WHERE course_id='{course_id}'")
+             b=execute_query(f"UPDATE active_courses SET file='{file}' WHERE course_id={course_id}")
              return
         c=execute_query=(f"""
-            UPDATE active_courses SET file='{file}' ,date='{start_date}' WHERE course_id='{course_id}'""")
+            UPDATE active_courses SET file='{file}' ,date='{start_date}' WHERE course_id={course_id}""")
         return
     
     def delete():
