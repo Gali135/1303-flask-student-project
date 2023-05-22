@@ -7,6 +7,10 @@ font-family: 'Ropa Sans', sans-serif;
 font-size: 25px;
 
 }
+
+a:hover{
+        color: orange;
+}
 li,a,button{
     text-decoration: none;
     color: white;
@@ -231,23 +235,24 @@ form select option{
 table{
     border: none;
     border-collapse: collapse;
-    position: absolute;
+    position:relative;
     top: 170px;
-    left:300px;
+    align-self:center;
     text-align: center;
-    width: 50%;
+    width: 40rem;
     height: 40%;
     
        
 }
 table th{
     color: orange;
-    padding: 10px;
+    padding: 16px;
     font-size: x-large;
 }
 table td{
     color: white;
     border-bottom: 1pt solid rgba(255, 166, 0, 0.45);
+    padding: 16px;
 }
 
 table a button{
@@ -401,8 +406,45 @@ select{
     margin-left: 10%;
 
 }
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.9rem;
+    max-width: 1100px;
+    margin: 2rem auto -6rem;
+}
+
+.inrto h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    
+}
+.intro h3{
+    margin-bottom: 0.08rem;
+    margin-left: 3rem;
+    
+    
+}
+.front p{
+    line-height: var(--line-height);
+}
+.hear {
+    color: var()
+}
+.leads form{
+    border-radius:25%;
+    width: 100rem;
+    box-shadow:0 0 18px 18px rgba(208, 91, 169, 0.5);
+    height: 22rem;
+}
+
 footer{
-    position: fixed;
+    display: flex;
+    margin-top: 50px;
+    position:fixed;
     left: 0;
     bottom: 0;
     background-color: #333;
@@ -410,6 +452,23 @@ footer{
     padding: 20px;
     text-align: center;
     width: 100%;
+    height: 70px;
+    align-items: center;
+    justify-content:space-around;
+    padding: 1rem 1.5rem;
+}
+footer ul{
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+footer li{
+    margin-left: 2rem;
+}
+footer p{
+    font-size: small;
+    margin-right: 10rem;
 }
 
 .p_img{
@@ -419,4 +478,15 @@ footer{
 .profile_pic{
     max-width: 100px;
     max-height: 1200px;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.row{
+    flex: 50%;
+    padding: 5px;
 }

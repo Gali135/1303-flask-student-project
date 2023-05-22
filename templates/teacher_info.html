@@ -11,28 +11,31 @@
 
     {% for t in teacher %}
     <div class="msg" name="msg">
-        <h4>Welcome to teacher info page, {{ t.t_name }}</h4>
+        <h3>Welcome to teacher info page, {{ t.t_name }}</h3>
+        <h5><p>Please click on course to see ferther details. </p></h5>
+
        
     </div>
     
     </div>
     <div class=teacher_info>
         <img class="profile_pic" src="/static/img/teachers/{{t.img}}" class="profile_picture">
-        <table >
-            <tr><th>Name</th><th>Email</th><th></th></tr>
-            <tr><td>{{t.t_name}}</td><td>{{t.email}}</td>
-                <td><a href="/teacher/update"><button id="update">Update</button></a></td></tr>
-        </table>
-        
-        <p>Please click on course to see ferther details. </p>
-        <table >
-            <tr><th>Courses</th><th> Avrage Grade</th></tr>
-            {%for c in course_info%}
-                <tr><td><a href="/teacher/course/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
-            {%endfor%}
+        <div class="column">
+            <table class="row">
+                <tr><th>Name</th><th>Email</th><th></th></tr>
+                <tr><td>{{t.t_name}}</td><td>{{t.email}}</td>
+                    <td><a href="/teacher/update"><button id="update">Update</button></a></td></tr>
+            </table>
+            
+            
+            <table class="row">
+                <tr><th>Courses</th><th> Avrage Grade</th></tr>
+                {%for c in course_info%}
+                    <tr><td><a href="/teacher/course/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
+                {%endfor%}
 
-        </table>
-        
+            </table>
+        </div>
       
     </div>
     {%endfor%}
