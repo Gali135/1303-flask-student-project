@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, render_template, request, session,ab
 from classes import Messages, Student, Course,Attendance,Teacher, PublicCourse
 from setup_db import execute_query
 from collections import namedtuple
+import os
 import json
 import datetime
 import statistics
@@ -196,6 +197,18 @@ def student_update():
         session["username"]="n_email"
         return redirect(url_for("student_info"))
 
+@app.route('/student/upload', methods=['GET', 'POST'])
+def student_upload():
+    if request.method == 'POST':
+        file = request.files['img']
+        name=request.form["name"]
+        if file:
+            filename = file.filename
+            file.save(os.path.join('static/img/students', filename))
+            execute_query(f"UPDATE students SET image ='{filename}' WHERE name ='{name}'")
+            return redirect(url_for("student_info"))
+    
+
 @app.route('/student_course/<student_id>/<course_id>', methods=['GET', 'POST'])
 def student_course(student_id,course_id):
         student_info=[]
@@ -274,10 +287,11 @@ def teacher_info():
         teacher_info=[]
         ti=execute_query(f"SELECT * FROM teachers WHERE teacher_id={id}")
         for t in ti:
-            teacher=namedtuple("Teacher", ['t_id','t_name', 'email'])
+            teacher=namedtuple("Teacher", ['t_id','t_name', 'email','img'])
             teacher.t_id=t[0]
             teacher.t_name=t[1]
             teacher.email=t[2]
+            teacher.img=t[4]
             teacher_info.append(teacher)
 
         course_info=[]
@@ -308,6 +322,17 @@ def teacher_update():
         session["username"]=f"{n_email}"
         session["role"]=2
         return redirect(url_for("teacher_info"))
+    
+@app.route('/teacher/upload', methods=['GET', 'POST'])
+def teacher_upload():
+    if request.method == 'POST':
+        file = request.files['img']
+        name=request.form["name"]
+        if file:
+            filename = file.filename
+            file.save(os.path.join('static/img/teachers', filename))
+            execute_query(f"UPDATE teachers SET image ='{filename}' WHERE name ='{name}'")
+            return redirect(url_for("teacher_info"))
 
 @app.route('/teacher/course/<teacher_id>/<course_id>', methods=['GET', 'POST'])
 def teacher_course_info(teacher_id, course_id):
