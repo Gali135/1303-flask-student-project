@@ -30,7 +30,7 @@ def create_tables():
             name TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
             user_id INTEGER NOT NULL UNIQUE,
-            image TEXT,
+            image TEXT DEFAULT 'anonymous.png',
             FOREIGN KEY (user_id) REFERENCES users (user_id)
          )
          """)
@@ -58,6 +58,7 @@ def create_tables():
             name TEXT NOT NULL,
             email TEXT NOT NULL,
             user_id INTEGER NOT NULL,
+            image TEXT DEFAULT 'anonymous.png',
             FOREIGN KEY (user_id) REFERENCES users (user_id)
          )
          """)
@@ -135,7 +136,7 @@ def create_fake_data(students_num=40 , teacher_num=4):
         execute_query(f"INSERT INTO active_courses (name, teacher_id) VALUES ('{course_name}','{random.choice(teacher_ids)}')")
         execute_query(f"INSERT INTO courses (name) VALUES ('{course_name}')")
     for i in range(1,41):
-        x=random.randint(1,5)
+        x=random.randint(1,6)
         execute_query(f"INSERT INTO students_courses (student_id, course_id, grade) VALUES ({i},{x},0)")
         execute_query(f"INSERT INTO attendance (student_id, course_id, date) VALUES ({i},{x},'2023-03-08')")
         

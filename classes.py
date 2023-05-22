@@ -29,17 +29,18 @@ class Messages:
 
 
 class Student:
-    def __init__(self,student_id:int, name:str, email:str,courses) -> None:
+    def __init__(self,student_id:int, name:str, email:str,courses, img:None) -> None:
         self.student_id=student_id
         self.name=name
         self.email=email
         self.courses=courses
+        self.img=img
        
 
     def show_info(email):
-        info=execute_query(f"SELECT student_id,name FROM students WHERE email='{email}'")
+        info=execute_query(f"SELECT student_id,name,image FROM students WHERE email='{email}'")
         student=[]
-        student.append(Student(student_id=session["id"],name=info[0][1], email=session["username"],courses=[]))
+        student.append(Student(student_id=session["id"],name=info[0][1], email=session["username"],courses=[],img=[0][2]))
         return student
     
     def show_all():
@@ -47,7 +48,7 @@ class Student:
         course_lst=[]
         
         
-        student_info=execute_query(f"""SELECT students.student_id, students.name, students.email FROM students""")
+        student_info=execute_query(f"""SELECT students.student_id, students.name, students.email,image FROM students""")
         for tuple in student_info:
             course_lst=[]
             course=execute_query(f"""
@@ -62,7 +63,7 @@ class Student:
                 
     
             students.append(Student(
-                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst))
+                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst,img=tuple[3]))
         return students
 
     def show_all_search(name):
@@ -159,11 +160,12 @@ class Course:
 
 
 class Teacher:
-    def __init__(self, teacher_id:int,name:str, email:str, courses:str):
+    def __init__(self, teacher_id:int,name:str, email:str, courses:str,img:None):
         self.teacher_id=teacher_id
         self.name=name
         self.email=email
         self.courses=courses
+        self.img=img
         
     # def show_info(id):
     #     info=[]
@@ -172,7 +174,7 @@ class Teacher:
     def show_all():
         
         teachers=[]
-        teacher=execute_query(f"""SELECT teachers.teacher_id, teachers.name, teachers.email FROM teachers""")
+        teacher=execute_query(f"""SELECT teachers.teacher_id, teachers.name, teachers.email,image FROM teachers""")
         for teacher_tuple in teacher:
             course_lst=[]
             course=execute_query(f"""
@@ -182,7 +184,7 @@ class Teacher:
                 # course_lst(name, course_id)
                 course_lst.append([course_tuple[0],course_tuple[1]])
 
-            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst))
+            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst,img=teacher_tuple[3]))
         return teachers
 
 

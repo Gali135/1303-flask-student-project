@@ -22,7 +22,10 @@
     <div class=container>
             {% for student in students %}
              <div class="info_card">
-                <!-- <img src="student-profile-picture.jpg" alt="Student Profile Picture"> -->
+                <div class="profile_img">
+                    <img class="p_img" src="/static/img/students/{{student.img}}" alt="Student Profile Picture">
+                </div>
+                
                 <h2>Name: {{ student.name }}</h2>
                 <p>Email: {{ student.email }}<p>
                 {% for course in student.courses %}

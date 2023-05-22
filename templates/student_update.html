@@ -17,7 +17,15 @@
         <input type="email" name="email" id="email" placeholder="{{email}}" autofocus>
         <input type="submit" value="Update">
     </form>
-              
+
+    <form action="/student/upload" method="POST" enctype="multipart/form-data">
+        <h1>Add Picture</h1>
+        <label for="img">Choos a file</label>
+        <input type="hidden" name="name" value="{{s_name}}">
+        <input type="file" name="img" >
+        <input type="submit" value="Update">
+    </form>   
+    
     <footer>
         {% include 'footer.html' %}
         {%block footer%}

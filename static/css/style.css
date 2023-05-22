@@ -411,3 +411,12 @@ footer{
     text-align: center;
     width: 100%;
 }
+
+.p_img{
+    max-width: 50px;
+    max-height: 70px;
+}
+.profile_pic{
+    max-width: 100px;
+    max-height: 1200px;
+}
