@@ -8,29 +8,32 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-
-    <div class="msg" name="msg">
-        <h4>Welcome to update info page, {{s_name}}</h4>
+    <div class="wrapper_i">
+        <div class="msg" name="msg">
+            <h4>Welcome to update info page, {{s_name}}</h4>
+        </div>
+        <div class="email_form">
+            <form action="/teacher/update" method="POST" >
+                <div class="title"> Update Email</div>
+                <label for="email">Enter New Email</label>
+                <input type="text" name="email" id="email" placeholder="{{email}}" autofocus required>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+        <div class="picture_form">   
+            <form action="/teacher/upload" method="POST" enctype="multipart/form-data">
+                <div class="title"> Update Picture</div>
+                <label for="img">Choos a file</label>
+                <input type="hidden" name="name" value="{{s_name}}">
+                <input type="file" name="img" >
+                <input type="submit" value="Update">
+            </form>   
+        </div>  
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-    
-    <form action="/teacher/update" method="POST" >
-        <label for="email">Enter New Email</label>
-        <input type="email" name="email" id="email" placeholder="{{email}}" autofocus required>
-        <input type="submit" value="Update">
-    </form>
-          
-    <form action="/teacher/upload" method="POST" enctype="multipart/form-data">
-        <h1>Add Picture</h1>
-        <label for="img">Choos a file</label>
-        <input type="hidden" name="name" value="{{s_name}}">
-        <input type="file" name="img" >
-        <input type="submit" value="Update">
-    </form>   
-
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 
 </html>

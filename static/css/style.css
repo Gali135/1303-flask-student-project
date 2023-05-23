@@ -459,10 +459,15 @@ footer ul{
     
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
+    list-style: none;
+    text-decoration: none;
 }
 footer li{
     margin-left: 2rem;
+    list-style: none;
+    text-decoration: none;
+    
 }
 footer p{
     font-size: small;

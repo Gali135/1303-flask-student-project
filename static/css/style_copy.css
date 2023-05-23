@@ -76,7 +76,9 @@ footer ul{
 
     display: flex;
     justify-content: space-between;
-    align-items: center
+    align-items: center;
+    list-style: none;
+    text-decoration: none;
 }
 footer li{
     margin-left: 2rem;
@@ -165,17 +167,19 @@ legend{
 
 /* Remove extra left and right margins, due to padding */
 .container_c {
-    
+    grid-template-columns: 1/span 12;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
     grid-row-start: 3;
     margin: 0 -5px;
     box-sizing: border-box;
+   
+
 }
 /* Float four columns side by side */
 .info_card{
     float: left;
-    width: 300px;
+    width: 100%;
     height: 350px;
     padding: 0 10px;
     box-sizing: border-box;
@@ -185,11 +189,11 @@ legend{
  
   
   /* Clear floats after the columns */
-.container_c:after {
+/* .container_c::after {
     content: "";
     display: table;
     clear: both;
-}
+} */
   
   /* Responsive columns */
 @media screen and (max-width: 600px) {
@@ -207,7 +211,7 @@ legend{
     text-align: center;
     background-color: #f1f1f1;
     height: 350px;
-    overflow: scroll;
+    overflow: hidden;
     color: black;
 }
 .p_img{
@@ -217,15 +221,15 @@ legend{
 }
    
 .search{
-    grid-row: 8;
-    grid-column: 5;
+    grid-row: 2;
+    grid-column: 5/span 2;
 
 }
 .search form{
     margin-top: 0;
     position:inherit;
     right: inherit;
-    width:100%;
+    width:500px;
     background-color: rgba(46, 46, 45, 0.842);
     text-align: center;
 }
@@ -269,7 +273,7 @@ legend{
 
 .picture_form{
     grid-row-start :3;
-    grid-column: 5/span 3;
+    grid-column: 9/span 3;
     padding: 20px;
 
 }
@@ -283,7 +287,7 @@ legend{
 }    
 .email_form {
     grid-row-start: 5;
-    grid-column: 5;
+    grid-column: 9;
     padding: 20px;
 }
 .email_form form{
@@ -558,8 +562,8 @@ font-size: 18px;
 
 
 .cards_container{
-    grid-row: 5;
-    grid-column :2/ span 5;
+    grid-row: 3;
+    grid-column :4/ span 5;
     /* align-items: center; */
 }
 .cards_container ul{
