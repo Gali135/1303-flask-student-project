@@ -163,10 +163,109 @@ legend{
 }
 
 
+/* Remove extra left and right margins, due to padding */
+.container_c {
+    
+    display: flex;
+    flex-wrap: wrap;
+    grid-row-start: 3;
+    margin: 0 -5px;
+    box-sizing: border-box;
+}
+/* Float four columns side by side */
+.info_card{
+    float: left;
+    width: 300px;
+    height: 350px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin: 10px;
+  }
+  
+ 
+  
+  /* Clear floats after the columns */
+.container_c:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+  
+  /* Responsive columns */
+@media screen and (max-width: 600px) {
+.info_card {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+}
+}
+  
+  /* Style the counter cards */
+.card_i {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 350px;
+    overflow: scroll;
+    color: black;
+}
+.p_img{
+    border-radius: 50%;
+    max-width: 70px;
+    max-height: 90px;
+}
+   
+.search{
+    grid-row: 8;
+    grid-column: 5;
+
+}
+.search form{
+    margin-top: 0;
+    position:inherit;
+    right: inherit;
+    width:100%;
+    background-color: rgba(46, 46, 45, 0.842);
+    text-align: center;
+}
 
 
+.info_table{
+    grid-row:4 ;
+    grid-column-start:1 ;
+}
+.students_table{
+    grid-row:3;
+    grid-column-start:5 ;
+}
 
+.course_links{
+    display: flex;
+    justify-content: space-around;
+    gap:15px;
+    grid-row:3 ;
+    grid-column-start:1/span 3 ;
+    padding: 15px;
+}
+.msg1{
+    grid-row:2 ;
+    grid-column:1/span 2 ;
+    color: orange;
+}
+.statistics{
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    grid-row:2 ;
+    grid-column:5 ;
+    list-style: none;  
+    padding: 15px;
+}
 
+.statistics li{
+    text-decoration: none;
+}
 a:hover{
     color: orange;
 }
@@ -425,13 +524,14 @@ font-size: 18px;
 
 
 .cards_container{
-flex-direction: column;
-margin-top: 120px;
-margin-left: 20%;
-align-items: center;
+    grid-row: 5;
+    grid-column :2/ span 5;
+    /* align-items: center; */
 }
 .cards_container ul{
-list-style: none;
+    list-style: none;
+    grid-row-start: 5;
+    grid-column-start: 2;
 }
 .card{
 box-sizing: border-box;
@@ -564,7 +664,3 @@ margin-left: 10%;
 
 
 
-.p_img{
-max-width: 50px;
-max-height: 70px;
-}

@@ -7,39 +7,43 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-    <div id="root"></div>
+    
+    <div class="wrapper_i">
+        <div id="root"></div>
+        <div class="search" >
+            <form action="/teacher_search" method="post">
+                <label for="name">Search</label>
+                <input type="text" name="name" placeholder="Enter Email or Name">
+                <input type="submit">
+            </form>
+        </div>
 
-    <div class="search" >
-        <form action="/teacher_search" method="post">
-            <input type="text" name="name" placeholder="Enter Email or Name">
-            <input type="submit">
-        </form>
-     </div>
+        <a href="/admin/teachers"> {{ back }}</a>
 
-     <a href="/admin/teachers"> {{ back }}</a>
-
-    <div class=container>
-            {% for teacher in teachers %}
-             <div class="info_card">
-                <div class="profile_img">
-                    <img class="p_img" src="/static/img/teachers/{{teacher.img}}" alt="teacher Profile Picture">
+        <div class="container_c">
+                {% for teacher in teachers %}
+                <div class="info_card">
+                    <div class="card_i">
+                        <div class="profile_img">
+                            <img class="p_img" src="/static/img/teachers/{{teacher.img}}" alt="teacher Profile Picture">
+                        </div>
+                        <h2>Name:{{ teacher.name }}</h2>
+                        <p>Email:{{ teacher.email }}<p>
+                        {% for course in teacher.courses %}
+                            <p>Courses: <a href="/teacher/course/{{teacher.teacher_id}}/{{course[1]}}">{{course[0] }}</a></p>
+                        {% endfor %}
+                    </div>
                 </div>
-                <h2>Name:{{ teacher.name }}</h2>
-                <p>Email:{{ teacher.email }}<p>
-                {% for course in teacher.courses %}
-                    <p>Courses: <a href="/teacher/course/{{teacher.teacher_id}}/{{course[1]}}">{{course[0] }}</a></p>
                 {% endfor %}
+            
+        </div>
+    
+    
 
-                </div>
-            {% endfor %}
-        </table>
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-   
-   
-
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 </html>

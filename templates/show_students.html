@@ -9,38 +9,44 @@
     {%block content%}
     {% endblock %}
     
-    <div class="root"></div>
-     <div class="search" >
-        <form action="/student_search" method="post">
-            <input type="text" name="name" placeholder="Enter Email or Name">
-            <input type="submit">
-        </form>
-     </div>
+    <div class="wrapper_i">
+        <div id="root"></div>
+        <div class="search" >
+            <form action="/student_search" method="post">
+                <label for="name">Search</label>
+                <input type="text" name="name" placeholder="Enter Email or Name">
+                <input type="submit">
+            </form>
+        </div>
 
-    <a href="/admin/students"> {{ back }}</a>
+        <a href="/admin/students"> {{ back }}</a>
 
-    <div class=container>
-            {% for student in students %}
-             <div class="info_card">
-                <div class="profile_img">
-                    <img class="p_img" src="/static/img/students/{{student.img}}" alt="Student Profile Picture">
+        <div class="container_c">
+            
+                {% for student in students %}
+                <div class="info_card">
+                    <div class="card_i">
+                        <img class="p_img" src="/static/img/students/{{student.img}}" alt="Student Profile Picture">
+                    
+                        
+                        <h2>Name: {{ student.name }}</h2>
+                        <p>Email: {{ student.email }}<p>
+                        {% for course in student.courses %}
+                            <p>Courses: {{course[0] }}</p>
+                         {% endfor %}
+                    </div>
+                   
                 </div>
-                
-                <h2>Name: {{ student.name }}</h2>
-                <p>Email: {{ student.email }}<p>
-                {% for course in student.courses %}
-                    <p>Courses: {{course[0] }}</p>
                 {% endfor %}
-            </div>
-            {% endfor %}
-        </table>
-    </div>
-   
-   
+            
+        </div>
+    
+    
 
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
+    </div>    
 </body>
 </html>

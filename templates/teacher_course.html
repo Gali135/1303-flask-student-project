@@ -8,38 +8,40 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-
-    {% for c in course_info %}
-    <div class="msg" name="msg">
-        <h4>Welcome to Course {{ c.c_name }}- info page </h4>
-        <a href="/teacher_info">< Back To Teacher Info</a>
-    </div>
-    <table>
-            <tr><th>Course Name</th><th>id</th><th>date</th></tr>
-            <tr><td>{{c.c_name}}</td><td>{{c.c_id}}</td><td>{{c.date}}</td></tr>
+    <div class="wrapper_i">
+        {% for c in course_info %}
+        <div class="msg1" name="msg">
+            <h4>Welcome to Course {{ c.c_name }}- info page </h4>
             
-    </table> 
-    <table>
-        <tr><th>Student Name</th><th>Grade</th><th> presence </th></tr>
-        {%for s in student_info%}
-            <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.per_presence}}%</td></tr>
-        {%endfor%}
-    </table>  
-    <div class="statistics">
-        <ul>
+        </div>
+        <table class="info_table">
+                <tr><th>Course Name</th><th>id</th><th>date</th></tr>
+                <tr><td>{{c.c_name}}</td><td>{{c.c_id}}</td><td>{{c.date}}</td></tr>
+                
+        </table> 
+        <table class="students_table">
+            <tr><th>Student Name</th><th>Grade</th><th> presence </th></tr>
+            {%for s in student_info%}
+                <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.per_presence}}%</td></tr>
+            {%endfor%}
+        </table>  
+        
+        <ul class="statistics">
             <li><p>Avrage Course Grade: {{c.avg_grade}}</p><img src="#" class="avg_grade" alt=""></li>
             <li><p>Course attendance: {{c.per_presence}}%</p><img src="#" class="attending_pie" alt=""></li>
         </ul>
+        
+        <div class="course_links">
+            <a href="/teacher/grade/{{c.c_id}}">Set Grades</a>
+            <a href="/attendance/{{c.c_id}}">Attendance</a>
+            <a href="/teacher_info"> Back To Teacher Info</a>
+        </div>
+        {% endfor %}  
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-    <div class="course_links">
-        <a href="/teacher/grade/{{c.c_id}}">Set Grades</a>
-        <a href="/attendance/{{c.c_id}}">Attendance</a>
-    </div>
-    {% endfor %}  
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 
 </html>
