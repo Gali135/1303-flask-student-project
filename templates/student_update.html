@@ -1,35 +1,40 @@
 {% include 'header.html' %}
 {%block head%}
 {% endblock %}
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style_copy.css">
     <title>Student Info</title>
 </head>
 <body>
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-
-    <div class="msg" name="msg">
-        <h4>Welcome to update info page, {{s_name}}</h4>
-       
-    <form action="/student/update" method="POST">
-        <label for="email">Enter New Email</label>
-        <input type="email" name="email" id="email" placeholder="{{email}}" autofocus>
-        <input type="submit" value="Update">
-    </form>
-
-    <form action="/student/upload" method="POST" enctype="multipart/form-data">
-        <h1>Add Picture</h1>
-        <label for="img">Choos a file</label>
-        <input type="hidden" name="name" value="{{s_name}}">
-        <input type="file" name="img" >
-        <input type="submit" value="Update">
-    </form>   
-    
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
+    <div class="wrapper_i"></div>
+        <div class="msg" >
+            <h4>Welcome to update info page, {{s_name}}</h4>
+        </div>
+        <div class="email_form">
+            <form action="/student/update" method="POST" >
+                <div class="title"> Update Email</div>
+                <label for="email">Enter New Email</label>
+                <input type="text" name="email" id="email" placeholder="{{email}}" autofocus>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+        <div class="picture_form">
+            <form action="/student/upload" method="POST" enctype="multipart/form-data" >
+                <div class="title"> Update Picture</div>
+                <label for="img">Choos a file</label>
+                <input type="hidden" name="name" value="{{s_name}}">
+                <input type="file" name="img" >
+                <input type="submit" value="Update">
+            </form>
+        </div>
+        
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
+    </div>
 </body>
 
 </html>

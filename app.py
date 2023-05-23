@@ -75,9 +75,9 @@ def login():
         return redirect(url_for('home'))
     msg= '''
         <form action="/login" method="post">
-            <p>Enter username<input type="text" name="username">
-            <p>Enter Password<input type="password" name="password">
-            <p><button type="submit">Login</button>
+            <br>Enter username<input type="text" name="username">
+            <br>Enter Password<input type="password" name="password">
+            <br><button type="submit">Login</button>
         </form>'''
     return render_template("login.html", msg=msg)
 
@@ -173,12 +173,20 @@ def student_info():
             JOIN students_courses
             ON students_courses.student_id={session["id"]}
             WHERE active_courses.course_id=students_courses.course_id""")
-        for c in ci:
+        
+        if ci== []:
             course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
-            course.c_id=c[0]
-            course.grade=c[1]
-            course.c_name=c[2]
+            course.c_id="No Date"
+            course.grade="No Date"
+            course.c_name="No Date"
             course_info.append(course)
+        else:
+            for c in ci:
+                course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
+                course.c_id=c[0]
+                course.grade=c[1]
+                course.c_name=c[2]
+                course_info.append(course)
             
             
         return render_template("student_info.html", students=student, course_info=course_info)
@@ -798,6 +806,11 @@ def course_search():
         return redirect(url_for("show_courses"))
     except:
         return redirect(url_for("show_courses")) 
+
+@app.route('/admin/delete/active_course/<course_id>', methods=['GET', 'POST'])
+def delete_active_course(course_id):
+    
+    return redirect(url_for("add_active_course"))
 
 @app.route('/logout')
 def logout():

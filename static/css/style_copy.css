@@ -266,6 +266,40 @@ legend{
 .statistics li{
     text-decoration: none;
 }
+
+.picture_form{
+    grid-row-start :3;
+    grid-column: 5/span 3;
+    padding: 20px;
+
+}
+.picture_form form{
+    margin-top: 0;
+    position:inherit;
+    right: inherit;
+    width:350px;
+    background-color: rgba(46, 46, 45, 0.842);
+    text-align: center;
+}    
+.email_form {
+    grid-row-start: 5;
+    grid-column: 5;
+    padding: 20px;
+}
+.email_form form{
+    margin-top: 0;
+    position:inherit;
+    right: inherit;
+    width:350px;
+    background-color: rgba(46, 46, 45, 0.842);
+    text-align: center;
+}
+.msg_u h4{
+    color: orange;
+    grid-row-start: 3;
+    grid-column: 2;
+}
+
 a:hover{
     color: orange;
 }
