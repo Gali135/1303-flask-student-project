@@ -11,56 +11,52 @@
     {% endblock %}
 
     <div class="intro" id="addCourseIntro">
-         
-
     </div>
-    <form action="/add_active_course" method="post">
-        <div class=title>Add Course</div><br>
-        <input type="text" id="course_name" name="course_name" placeholder="Enter Course Name"><br>
-        <label for="desc">Enter description</label>
-        <input type="text" name="desc">
-        <label> Upload picture </label>
-        <!-- upload the picture somehow, the name should be "course_name_logo.png" -->
-        <input type="file" name="image" ><br>
-        <button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
-    </form>
+    <div class="wrapper_i">
+        <form class="add_course_form" action="/add_course" method="post">
+            <div class="title">Add Course</div><br>
+            <label for="course_name">Enter Course Name</label>
+            <input type="text" id="course_name" name="course_name" placeholder="Enter Course Name"><br>
+            <label for="desc">Enter description</label>
+            <input type="text" name="desc">
+            <br><label> Upload picture </label>
+            <!-- upload the picture somehow, the name should be "course_name_logo.png" -->
+            <input type="file" name="image" ><br>
+            <button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
+        </form>
 
-    <script>
-        const courseNameInput = document.getElementById("course_name");
-        const imageInput = document.getElementById("image");
-      
-        courseNameInput.addEventListener("input", function() {
-          
-          const courseName = courseNameInput.value;
-          imageInput.value = courseName + "_logo.png";
-        });
-      </script>
-      
-      
-      
-      
-      
-      
-      
-      
-    <div class=course_table>
-        <table>
-            <tr><th>Course names</th><th>Course Desc</th><th>image</th><th></th><th></th></tr>
-            {% for c in courses %}
-            <tr>
-                <td> <a href="courses/students/{{c.id}}">{{c.name}}</a> </td>
-                <td>{{c.description}}</td>
-                <td>{{c.image}}</td>
-                <td><a href="#"><button id="delete">Delete</button></a></td>
-            </tr>
-            <td><a href="/admin/update_course/{{c.id}}"><button id="update">Update</button></a></td>
-        </tr>
-            {% endfor %}
-        </table>
+        <script>
+            const courseNameInput = document.getElementById("course_name");
+            const imageInput = document.getElementById("image");
+        
+            courseNameInput.addEventListener("input", function() {
+            
+            const courseName = courseNameInput.value;
+            imageInput.value = courseName + "_logo.png";
+            });
+        </script>
+        
+        
+        
+        <div class=course_table>
+            <table>
+                <tr><th>Course names</th><th>Course Desc</th><th>image</th><th>Delete</th><th>Update</th></tr>
+                {% for c in courses %}
+                <tr>
+                    <td> <a href="courses/students/{{c.id}}">{{c.name}}</a> </td>
+                    <td>{{c.description}}</td>
+                    <td>{{c.image}}</td>
+                    <td><a href="#"><button id="delete">Delete</button></a></td>
+                
+                    <td><a href="/admin/update_course/{{c.id}}"><button id="update">Update</button></a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 </html>

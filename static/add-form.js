@@ -8,8 +8,9 @@ function AddMessageForm() {
     }
     return (
         <form onSubmit={handleSubmit}>
+            <div class="title">Enter Message:</div>
             <input type="text" name="message" autoFocus />
-            <input type="submit" value="Add Message" />
+            <br></br><input type="submit" value="Add" />
         </form>
     )
 }

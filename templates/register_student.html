@@ -18,14 +18,14 @@
    
     <form action="/register" method="GET">
         <div class=title>Register Student</div><br>
-        <label for="students">Choose a student:</label>
+        <label for="students">Choose a student:</label><br>
         <select name="students" id="students">
             <option disabled selected>Choose a student</option>
             {% for s in students_lst %}
                 <option value="{{s.s_id}}">{{s.s_name}}</option>
             {%endfor%}
         </select>     
-        <label for="courses">Choose a course:</label>
+        <br><label for="courses">Choose a course:</label>
         <select name="courses" id="courses">
             <option disabled selected>Choose course</option>
             {% for c in courses_lst %}

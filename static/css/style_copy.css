@@ -115,9 +115,7 @@ footer p{
 .lead_form_title {
     color: orange;
 }
-.hear {
-    color: var()
-}
+
 
 .messages{
     grid-column: 10/span 2;
@@ -130,6 +128,45 @@ legend{
     color:orange;
     font-size:35px;
 }
+
+.admin_links{
+    grid-column: 1/-1;
+    grid-row: 2;
+    text-decoration: none;
+    display: flex;
+    justify-content:space-around right;
+    list-style: none;
+    
+}
+.admin_links li{
+    margin: 0 10px;
+}
+.message_form{
+    grid-column: 5/span 3;
+    grid-row: 3;
+    align-items: center;
+}
+.message_form form{
+    
+    margin-top: 0;
+    position:inherit;
+    right: inherit;
+    width:80%;
+    background-color: rgba(46, 46, 45, 0.842);
+    text-align: center;
+}
+
+
+.course_table{
+    grid-column: 2/span 8;
+    grid-row: 1/6; 
+}
+
+
+
+
+
+
 a:hover{
     color: orange;
 }
@@ -322,8 +359,8 @@ color: rgb(234, 155, 8);
 border-radius: 10px;
 width:205px;
 margin:15px;
-text-align: center;
-align-items: center;
+text-align: inherit;
+align-items: inherit;
 
 
 }

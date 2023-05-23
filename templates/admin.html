@@ -15,22 +15,24 @@
             <button type="submit">Search</button>
         </form> -->
     </div>
-    <div class="links">
-        <ul>
-            <li><a href="add_active_course">Add Active Course</a></li>
-            <li><a href="add_course">Add Course</a></li>
-            <li><a href="admin/register_student">Register Student</a></li>
-            <li><a href="courses/attendance">Attendance</a></li>
-            <li><a href="admin/students"> Students</a></li>
-            <li><a href="admin/teachers"> Teachers</a></li>
-        </ul>
+    <div class="wrapper_i">
+        
+            <ul class="admin_links">
+                <li><a href="add_active_course">Add Active Course</a></li>
+                <li><a href="add_course">Add Course</a></li>
+                <li><a href="admin/register_student">Register Student</a></li>
+                <li><a href="courses/attendance">Attendance</a></li>
+                <li><a href="admin/students"> Students</a></li>
+                <li><a href="admin/teachers"> Teachers</a></li>
+            </ul>
+        
+        
+        <div class="message_form" id="addForm"></div>
+        
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-
-    <div id="addForm"></div>
-    
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 </html>

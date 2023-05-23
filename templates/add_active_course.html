@@ -12,53 +12,55 @@
 
     <div class="intro" id="addCourseIntro">
          
+    </div>
 
-    </div>
-    <form action="/add_active_course" method="post">
-        <div class=title>Add Course</div><br>
-        <label for="course_name">Select Course</label>
-        <select name="course_name" id="course_name">
-            <option value="" disabled selected hidden> Select Course</option> 
-            {% for name in courses_lst %}
-                <option value="{{ name }}" name="{{name}}">{{ name }}</option>
-            {% endfor %}
-        </select>
-        <br><label for="">Select start date</label>
-        <input type="date" name="start_date">
-        <br><label> Select Teacher </label>
-        <select name="teacher_id" id="teacher_id">
-                <option value="" disabled selected hidden> Select Teacher</option> 
-                {% for teacher in teachers_lst %}
-                    <option value="{{ teacher.id }}" name="{{ teacher.id}}">{{ teacher.name }}</option>
+    <div class="wrapper_i">
+        <form action="/add_active_course" method="post">
+            <div class="title">Add Course</div><br>
+            <label for="course_name">Select Course</label>
+            <select name="course_name" id="course_name">
+                <option value="" disabled selected hidden> Select Course</option> 
+                {% for name in courses_lst %}
+                    <option value="{{ name }}" name="{{name}}">{{ name }}</option>
                 {% endfor %}
-        </select>
-        <br><label for="file">Upload Syllabus</label>
-        <input type="file" name="file">
-        <br><button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
-    </form>
-    
-    <div class=course_table>
-        <table>
-            <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th>syllabus</th><th></th><th></th></tr>
-            {% for course in a_courses_lst %}
-            <tr>
-                <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
-                <td>{{course.t_name}}</td>
-                <td>{{course.date}}</td>
-                {% if course.file %}
-                    <td><a href="/static/files/{{course.file}}" download>Download File</a></td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-                <td><a href="/admin/delete/active_course/{{course.id}}"><button id="delete">Delete</button></a></td>
-                <td><a href="/admin/update/active_course/{{course.id}}"><button id="delete">Update</button></a></td>
-            </tr>
-            {% endfor %}
-        </table>
+            </select>
+            <br><label for="">Select start date</label>
+            <input type="date" name="start_date">
+            <br><label> Select Teacher </label>
+            <select name="teacher_id" id="teacher_id">
+                    <option value="" disabled selected hidden> Select Teacher</option> 
+                    {% for teacher in teachers_lst %}
+                        <option value="{{ teacher.id }}" name="{{ teacher.id}}">{{ teacher.name }}</option>
+                    {% endfor %}
+            </select>
+            <br><label for="file">Upload Syllabus</label>
+            <input type="file" name="file">
+            <br><button id="submitCourse" type="submit" onclick="addCourse()">submit</button>
+        </form>
+        
+        <div class=course_table>
+            <table>
+                <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th>syllabus</th><th></th><th></th></tr>
+                {% for course in a_courses_lst %}
+                <tr>
+                    <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
+                    <td>{{course.t_name}}</td>
+                    <td>{{course.date}}</td>
+                    {% if course.file %}
+                        <td><a href="/static/files/{{course.file}}" download>Download File</a></td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                    <td><a href="/admin/delete/active_course/{{course.id}}"><button id="delete">Delete</button></a></td>
+                    <td><a href="/admin/update/active_course/{{course.id}}"><button id="delete">Update</button></a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 </html>
