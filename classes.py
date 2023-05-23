@@ -157,6 +157,7 @@ class Course:
     def show_all():
          pass
     def update(course_id, file, start_date):
+        print(f"file={file} course_id={course_id} date{start_date}")
         if file=="" and start_date != "":
             a=execute_query(f"UPDATE active_courses SET date='{start_date}' WHERE course_id={course_id}")
             return

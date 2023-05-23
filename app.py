@@ -518,6 +518,7 @@ def update_active_course(course_id):
             filename = file.filename
             file.save(os.path.join('static/files', filename))
             
+        
         a=Course.update(course_id, filename, date)  
         return redirect(url_for("add_active_course"))  
     
@@ -689,11 +690,11 @@ def show_courses():
     return render_template("show_courses.html",  courses=courses)
 
 
-@app.route('/delete_active_course/<course_id>')
+@app.route('/admin/delete/active_course/<course_id>')
 def delete_course(course_id):
     delete=execute_query(f"DELETE FROM active_courses WHERE course_id={course_id}")
     return redirect(url_for("add_active_course"))
-#how do i get the course_id?
+
     
 
 @app.route('/course/<id>')
@@ -807,10 +808,6 @@ def course_search():
     except:
         return redirect(url_for("show_courses")) 
 
-@app.route('/admin/delete/active_course/<course_id>', methods=['GET', 'POST'])
-def delete_active_course(course_id):
-    
-    return redirect(url_for("add_active_course"))
 
 @app.route('/logout')
 def logout():
