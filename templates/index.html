@@ -1,7 +1,6 @@
 {% include 'header.html' %}
 {%block head%}
 {% endblock %}
-<link rel="stylesheet" href="/static/css/style.css">
     <title>Home</title>
 </head>
 <body>
@@ -11,23 +10,20 @@
 
     <script type="text/babel" src="/static/counter.js"></script>
     <script type="text/babel" src="/static/messages.js" defer></script>
-    <div id="Hmessages"></div>
-    <div id="counter"></div>
-    <div class="msg" name="msg">
-        <h1>Welcome to the home page</h1>
-        
-    <!-- </div>
-    <div class="messages" id="messages"></div>
-    <div class="intro" id="indexIntro">
-        {{ msg| safe }}
+    <div class=wrapper_i> 
+        <fieldset class="messages"> 
+            <legend>Messages:</legend>
+            <div id="Hmessages"></div>
+        </fieldset> 
+        <div id="counter"></div>
+        <div class="msg" name="msg">
+            <h1>Welcome to the home page</h1>
+            
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-   
-    <div id=messages></div> -->
-    
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 
 </html>

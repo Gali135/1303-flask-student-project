@@ -1,7 +1,7 @@
 {% include 'header.html' %}
 {%block head%}
 {% endblock %}
-<link rel="stylesheet" href="/static/css/style.css">
+<!-- <link rel="stylesheet" href="/static/css/style.css"> -->
     <title>Home</title>
 </head>
 <body>
@@ -12,37 +12,32 @@
     
     <!-- <div class="msg" name="msg">
         <h1>Welcome to the home page</h1> -->
-        
-    <div class="image_caruosel"></div>
-    <section class="front">
-        <div class="intro">
-            <div class="title">
-                <h1><span class="teach"> Learn to code from scratch</span></h1>
-                <h3><span class="learn"> Join in on something big</span></h3>
-            </div>
-            <div class="leads">
-        
-                <form action="/add_lead" method="post">
-                    <div class="lead_form_title">
-                        <h3> Want to hear more?</h3>
-                        <h5>Fill in your details and we'll get back to you shortly</h5>
-                    </div>
-                    <input type="text" name="name" placeholder="Enter Full Name" required>
-                    <input type="text"name="phone" placeholder="Enter Phone Number" required>
-                    <input type="text" name="email" placeholder="Enter Email" required>
-                    <input type="text" name="details" placeholder="What Do You Want To Know?"><br>
-                    <input type="submit">
-                </form>
-            </div>
+    <div  class="wrapper_i" >  
+        <div class="image_caruosel"></div>
+            
+        <div class="title_leads">
+            <h1><span class="teach"> Learn to code from scratch</span></h1>
+            <h3><span class="learn"> Join in on something big</span></h3>
         </div>
-        
-    </section>
-   
-    
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
+        <div class="leads">
+            <form class="lead_form" action="/add_lead" method="post">
+                <div class="lead_form_title">
+                    <h3> Want to hear more?</h3>
+                    <h5>Fill in your details and we'll get back to you shortly</h5>
+                </div>
+                <input type="text" name="name" placeholder="Enter Full Name" required>
+                <input type="text"name="phone" placeholder="Enter Phone Number" required>
+                <input type="text" name="email" placeholder="Enter Email" required>
+                <input type="text" name="details" placeholder="What Do You Want To Know?"><br>
+                <input type="submit">
+            </form>
+        </div>        
+                    
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
+    </div>
 </body>
 
 </html>

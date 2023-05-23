@@ -8,41 +8,40 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-
+    <div class="wrapper_i">
     {% for t in teacher %}
-    <div class="msg" name="msg">
-        <h3>Welcome to teacher info page, {{ t.t_name }}</h3>
-        <h5><p>Please click on course to see ferther details. </p></h5>
+        <div class="msg" name="msg">
+            <h3>Welcome to teacher info page, {{ t.t_name }}</h3>
+            <h5><p>Please click on course to see ferther details. </p></h5>
 
-       
-    </div>
-    
-    </div>
-    <div class=teacher_info>
-        <img class="profile_pic" src="/static/img/teachers/{{t.img}}" class="profile_picture">
-        <div class="column">
-            <table class="row">
-                <tr><th>Name</th><th>Email</th><th></th></tr>
-                <tr><td>{{t.t_name}}</td><td>{{t.email}}</td>
-                    <td><a href="/teacher/update"><button id="update">Update</button></a></td></tr>
-            </table>
-            
-            
-            <table class="row">
-                <tr><th>Courses</th><th> Avrage Grade</th></tr>
-                {%for c in course_info%}
-                    <tr><td><a href="/teacher/course/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
-                {%endfor%}
-
-            </table>
         </div>
+    
+        <img class="profile_pic" src="/static/img/teachers/{{t.img}}" class="profile_picture">
+        
+        <table class="table1">
+            <tr><th>Name</th><th>Email</th><th></th></tr>
+            <tr><td>{{t.t_name}}</td><td>{{t.email}}</td>
+                <td><a href="/teacher/update"><button id="update">Update</button></a></td></tr>
+        </table>
+        
+        
+        <table class="table2">
+            <tr><th>Courses</th><th> Avrage Grade</th></tr>
+            {%for c in course_info%}
+                <tr><td><a href="/teacher/course/{{t.t_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.avg_grade}}</td></tr>
+            {%endfor%}
+
+        </table>
+        
+        
       
+    
+        {%endfor%}
+        <footer>
+            {% include 'footer.html' %}
+            {%block footer%}
+            {%endblock%}
     </div>
-    {%endfor%}
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 
 </html>

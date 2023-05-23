@@ -147,10 +147,8 @@ form button{
     width: 80px;
     border-radius: 50px;
     border: none;
-
-
-    
 }
+
 form input[type=text]{
     width:205px;
     border:none;

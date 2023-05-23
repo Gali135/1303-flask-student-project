@@ -8,24 +8,24 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
+    <div class="wrapper_i" id="studentInfoIntro">
+        {% for s in students %}
+        <div class="msg" name="msg">
+            <h4>Welcome to student info page, {{ s.name }}</h4>
+        
+        </div>
+            {{ msg| safe }}
+        </div>
 
-    {% for s in students %}
-    <div class="msg" name="msg">
-        <h4>Welcome to student info page, {{ s.name }}</h4>
-       
-    </div>
-    <div class="student_intro" id="studentInfoIntro">
-        {{ msg| safe }}
-    </div>
-    <div class="student_info">
+        
         <img class="profile_pic" src="/static/img/students/{{s.img}}" class="profile_picture">
-        <table >
+        <table class="table1">
             <tr><th>Name</th><th>Email</th><th></th></tr>
             <tr><td>{{s.name}}</td><td>{{s.email}}</td>
                 <td><a href="/student/update"><button id="update">Update</button></a></td></tr>
         </table>
         
-        <table >
+        <table class="table2" >
             <tr><th>Courses</th><th>Grade</th></tr>
             {%for c in course_info%}
                 <tr><td><a href="/student_course/{{s.student_id}}/{{c.c_id}}">{{c.c_name}}</a></td><td>{{c.grade}}</td></tr>
@@ -33,12 +33,13 @@
 
         </table>
         <!-- <a class="update_button" href="/student/update"><button id="update">Update Info</button></a> -->
-    {%endfor%}
+        {%endfor%}
+        
+            <footer>
+                {% include 'footer.html' %}
+                {%block footer%}
+                {%endblock%}
     </div>
-    <footer>
-        {% include 'footer.html' %}
-        {%block footer%}
-        {%endblock%}
 </body>
 
 </html>
