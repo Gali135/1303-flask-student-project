@@ -57,9 +57,13 @@ class Student:
                 JOIN active_courses ON active_courses.course_id = students_courses.course_id
                 WHERE students_courses.student_id={tuple[0]};
             """)
-            for course_tuple in course:
-                #course(name, grade, course_id)
-                course_lst.append([course_tuple[0],course_tuple[1],course_tuple[2]])
+            if course == []:
+                    course_lst.append(["No Course Registerd"])
+            else:
+                for course_tuple in course:
+                    #course(name, grade, course_id)
+                    course_lst.append([course_tuple[0],course_tuple[1],course_tuple[2]])
+                
                 
     
             students.append(Student(

@@ -3,13 +3,14 @@
 {% endblock %}
     <title>All students</title>
 </head>
-<body>
-    <script src="/static/search_react.js" type="text"></script>
-    {% include 'navbar.html' %}
-    {%block content%}
-    {% endblock %}
-    
-    <div class="wrapper_i">
+<body> 
+    <div class="wrapper_i"></div>
+        {% include 'navbar.html' %}
+        {%block content%}
+        {% endblock %}
+        <script src="/static/search_react.js" type="text"></script>
+        
+   
         <div id="root"></div>
         <div class="search" >
             <form action="/student_search" method="post">
@@ -21,26 +22,22 @@
 
         <a href="/admin/students"> {{ back }}</a>
 
-        <div class="container_c">
-            
-                {% for student in students %}
-                <div class="info_card">
-                    <div class="card_i">
-                        <img class="p_img" src="/static/img/students/{{student.img}}" alt="Student Profile Picture">
-                    
-                        
-                        <h2>Name: {{ student.name }}</h2>
-                        <p>Email: {{ student.email }}<p>
-                        {% for course in student.courses %}
-                            <p>Courses: {{course[0] }}</p>
-                         {% endfor %}
-                    </div>
+        <table calss="table_st">
+            <tr>
+                <th>image</th><th>name</th><th>email</th><th>course</th>
+            </tr> 
+            {% for student in students %}
+            <tr>
+                <td><img class="p_img" src="/static/img/students/{{student.img}}" alt="Student Profile Picture"></td>
+                <td>{{ student.name }}</td><td>{{ student.email }}</td>
+                {% for course in student.courses %}
+                    <td>{{course[0] }}</td>
                    
-                </div>
                 {% endfor %}
-            
-        </div>
-    
+            </tr>
+            {% endfor %}
+        </table>
+       
     
 
         <footer>

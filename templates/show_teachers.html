@@ -4,11 +4,12 @@
     <title>All Teachers</title>
 </head>
 <body>
-    {% include 'navbar.html' %}
-    {%block content%}
-    {% endblock %}
-    
     <div class="wrapper_i">
+        {% include 'navbar.html' %}
+        {%block content%}
+        {% endblock %}
+    
+    
         <div id="root"></div>
         <div class="search" >
             <form action="/teacher_search" method="post">
@@ -20,24 +21,25 @@
 
         <a href="/admin/teachers"> {{ back }}</a>
 
-        <div class="container_c">
-                {% for teacher in teachers %}
-                <div class="info_card">
-                    <div class="card_i">
-                        <div class="profile_img">
-                            <img class="p_img" src="/static/img/teachers/{{teacher.img}}" alt="teacher Profile Picture">
-                        </div>
-                        <h2>Name:{{ teacher.name }}</h2>
-                        <p>Email:{{ teacher.email }}<p>
-                        {% for course in teacher.courses %}
-                            <p>Courses: <a href="/teacher/course/{{teacher.teacher_id}}/{{course[1]}}">{{course[0] }}</a></p>
-                        {% endfor %}
-                    </div>
-                </div>
+
+        <table calss="table_te">
+            <tr>
+                <th>image</th><th>name</th><th>email</th><th>course</th>
+            </tr> 
+            {% for teacher in teachers %}
+            <tr>
+                <td><img class="p_img" src="/static/img/teachers/{{teacher.img}}" alt="teacher Profile Picture"></td>
+                <td>{{ teacher.name }}</td><td>{{ teacher.email }}</td>
+                {% for course in teacher.courses %}
+                <td><a href="/teacher/course/{{teacher.teacher_id}}/{{course[1]}}">{{course[0] }}</td>
                 {% endfor %}
-            
-        </div>
-    
+            </tr>
+            {% endfor %}
+        </table>
+
+        
+                            
+                       
     
 
         <footer>
