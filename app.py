@@ -24,7 +24,7 @@ messages=db_messages()
 @app.route('/', methods=['GET', 'POST'])
 def home():
     results={}
-    #taking down tenporarly render_template("index.html", results=results)
+    
     session["prev_messages"]=len(messages)
     return render_template("index.html")
 
@@ -113,8 +113,7 @@ def register_student():
 def register():
     student_id=request.args.get("students")
     course_id=request.args.get("courses")
-    # if session.get("role","anonymous")=='admin':
-    #     return 'To see this page please log in'
+   
     execute_query(
         f"INSERT INTO students_courses (student_id, course_id) VALUES ('{student_id}','{course_id}')")
     return redirect(url_for('admin'))
@@ -130,18 +129,9 @@ def admin():
 
 @app.route('/messages')
 def get_message():
-    # session["prev_messages"]=len(messages)
+    
     messages=Messages.show_last5()
     return messages
-
-# @app.route('/num')
-# def method_name1():
-#     return str(len(messages))
-
-# @app.route('/new_message_counter')
-# def counter():
-#     session["new_messages"]=len(messages)-session["prev_messages"]
-#     return str(session["new_messages"])
 
 @app.route('/add_m', methods=['POST'])
 def add():
