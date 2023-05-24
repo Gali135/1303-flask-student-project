@@ -733,13 +733,14 @@ def listall():
 @app.route('/student_search', methods=['GET', 'POST'])
 def student_search():
     name=request.form["name"]
-    try:
-        results=Student.show_all_search(name)
-        if results != []:
-            return render_template("show_students.html", students=results, back="Show All")
-        return redirect(url_for("all_students"))
-    except:
-        return redirect(url_for("all_students"))
+    results=Student.show_all_search(name)
+    if results != []:
+        print("success")
+        return render_template("show_students.html", students=results, back="Show All")
+    print("result is empty")    
+    return redirect(url_for("all_students"))
+
+    
 
 @app.route('/teacher_search', methods=['GET', 'POST'])
 def teacher_search():

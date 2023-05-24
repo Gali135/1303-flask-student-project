@@ -76,9 +76,9 @@ class Student:
         
         
         result=execute_query(f"""
-            SELECT student_id, name , email FROM students WHERE students.name  LIKE '{name}%' 
+            SELECT student_id, name , email , image FROM students WHERE students.name  LIKE '{name}%' 
             UNION
-            SELECT student_id, name , email FROM students WHERE students.email  LIKE '{name}%' """)
+            SELECT student_id, name , email , image FROM students WHERE students.email  LIKE '{name}%' """)
         for tuple in result:
             course_lst=[]
             course=execute_query(f"""
@@ -93,7 +93,7 @@ class Student:
                 
     
             students.append(Student(
-                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst))
+                student_id=tuple[0], name=tuple[1],email=tuple[2],courses=course_lst,img=tuple[3]))
         return students
 
 
@@ -208,9 +208,9 @@ class Teacher:
     def show_all_search(name):
         teachers=[]
         result=execute_query(f"""
-            SELECT teacher_id, name , email FROM teachers WHERE teachers.name  LIKE '{name}%' 
+            SELECT teacher_id, name , email , image FROM teachers WHERE teachers.name  LIKE '{name}%' 
             UNION
-            SELECT teacher_id, name , email FROM teachers WHERE teachers.email  LIKE '{name}%' """)
+            SELECT teacher_id, name , email ,image FROM teachers WHERE teachers.email  LIKE '{name}%' """)
         
         for teacher_tuple in result:
             course_lst=[]
@@ -221,7 +221,7 @@ class Teacher:
                 # course_lst(name, course_id)
                 course_lst.append([course_tuple[0],course_tuple[1]])
 
-            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst))
+            teachers.append(Teacher(teacher_id=teacher_tuple[0], name=teacher_tuple[1],email=teacher_tuple[2],courses=course_lst,img=teacher_tuple[3]))
         return teachers
 
     def update(n_email, o_email):
