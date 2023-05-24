@@ -7,7 +7,7 @@ body{
     
     font-family: 'Ropa Sans', sans-serif;
     font-size: 25px;
-    
+    overflow: scroll;
 }
 
 .wrapper_i{
@@ -236,11 +236,11 @@ legend{
 
 
 .info_table{
-    grid-row:4 ;
+    grid-row-start:4 ;
     grid-column-start:1 ;
 }
 .students_table{
-    grid-row:3;
+    grid-row-start:3;
     grid-column-start:5 ;
 }
 
@@ -261,8 +261,8 @@ legend{
     display: flex;
     justify-content: space-around;
     gap: 10px;
-    grid-row:2 ;
-    grid-column:5 ;
+    grid-row:7 ;
+    grid-column:1/span 3 ;
     list-style: none;  
     padding: 15px;
 }
@@ -582,16 +582,23 @@ display: flex;
 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 background-color: rgba(253, 253, 253, 0.493);
 max-width: 100%;
-width:700px;
+width:800px;
 margin: 50px;
 margin-bottom: 20px;
 margin-top: 20px;
 border-radius: 10px; 
-overflow: hidden; 
-max-height: 100px ;
-
-
+overflow: hidden;
+height: 100px ;
+transition: width .2s;
 }
+.card:hover{
+    width:1500px;
+    height:150px;  
+}
+.card img:hover {
+    height:150px;
+}
+
 .card h1{
 color: white;
 align-items:center;
@@ -606,6 +613,7 @@ height: 100px;
 }
 .card p{
 margin-left: 50px;
+overflow: hidden;
 }
 .card button{
 

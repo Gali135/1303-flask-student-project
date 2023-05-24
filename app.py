@@ -169,23 +169,25 @@ def student_info():
         
         course_info=[]
         ci=execute_query(f"""
-            SELECT students_courses.course_id ,students_courses.grade, active_courses.name FROM active_courses
+            SELECT students_courses.course_id ,students_courses.grade, active_courses.name,active_courses.file FROM active_courses
             JOIN students_courses
             ON students_courses.student_id={session["id"]}
             WHERE active_courses.course_id=students_courses.course_id""")
         
         if ci== []:
-            course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
+            course=namedtuple("Courses", ['c_id', 'grade', 'c_name','file'])
             course.c_id="No Date"
             course.grade="No Date"
-            course.c_name="No Date"
+            course.c_name="No Course Registerd"
             course_info.append(course)
         else:
             for c in ci:
-                course=namedtuple("Courses", ['c_id', 'grade', 'c_name'])
+                course=namedtuple("Courses", ['c_id', 'grade', 'c_name','file'])
                 course.c_id=c[0]
                 course.grade=c[1]
                 course.c_name=c[2]
+                course.file=c[3]
+
                 course_info.append(course)
             
             
@@ -349,10 +351,11 @@ def teacher_course_info(teacher_id, course_id):
             SELECT  * FROM active_courses 
             WHERE course_id={course_id} AND teacher_id={teacher_id}""")
     for c in ci:
-        course=namedtuple("Courses", ['c_id','c_name','date', 'avg_grade','per_presence' ])
+        course=namedtuple("Courses", ['c_id','c_name','date', 'avg_grade','per_presence','file' ])
         course.c_id=c[0]
         course.c_name=c[1]
         course.date=c[3]
+        course.file=c[4]
         course.avg_grade=Teacher.avg(c[0])
         course.per_presence=per_presence_course(c[0])
         course_info.append(course)
@@ -427,7 +430,7 @@ def add_active_course():
     teachers = execute_query("SELECT teacher_id , name FROM teachers")
     courses=execute_query("SELECT name FROM courses")
     a_courses = execute_query("""
-        SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,teachers.name 
+        SELECT active_courses.course_id ,active_courses.name ,active_courses.date ,active_courses.file ,teachers.name 
         FROM active_courses 
         left JOIN teachers 
         on active_courses.teacher_id=teachers.teacher_id
@@ -447,11 +450,12 @@ def add_active_course():
         courses_lst.append(tuple[0])
 
     for course_tuple in a_courses:
-        course = namedtuple("Course", ['id','c_name', 't_name','date'])
+        course = namedtuple("Course", ['id','c_name', 't_name','date','file'])
         course.id = course_tuple[0]
         course.c_name = course_tuple[1]
         course.date=course_tuple[2]
-        course.t_name = course_tuple[3]
+        course.t_name = course_tuple[4]
+        course.file = course_tuple[3]
         a_courses_lst.append(course)
 
     if request.method == 'GET':
@@ -461,6 +465,7 @@ def add_active_course():
         course_name = request.form["course_name"]
         start_date=request.form["start_date"]
         file = request.files['file']
+        filename=file.filename
 
         if file:
             filename = file.filename
@@ -479,7 +484,7 @@ def add_active_course():
             #teacher_id=execute_query(f"SELECT teachers_id FROM teachers WHERE name={teacher_name}")
 
             try:
-                Course.add(course_name, teacher_id,start_date,file)
+                Course.add(course_name, teacher_id,start_date,filename)
             except:
                 msg="something went wrong, please try again."
             else:
@@ -717,17 +722,7 @@ def search():
                 # result[f"{table}"]["id"].append(first[1])
     
     return render_template("index.html" , results=results)
-# f __name__ == '__main__':
-#     app.run(debug=True)
 
-# @app.route('/')
-# def index():
-#     if 'username' in session:
-#         return f'Logged in as {session["username"]}'
-#     return 'You are not logged in'
-
-# 
-#     '''
 @app.route('/admin/teachers', methods=['GET', 'POST'])
 def all_teachers():
     teachers=Teacher.show_all()
@@ -740,29 +735,6 @@ def all_students():
     return render_template("show_students.html", students=students)
 
 
-# @app.route('/teacher/<teacher_id>', methods=['POST'])
-# def teacher(teacher_id):
-#     courses=execute_query(f"SELECT active_course.name, active_courses.course_id FROM active_corses WHERE teacher_id={teacher_id}")
-#     info=[]
-#     for t_tuple in courses:
-#             s=namedtuple("TeacherC", ['c_id','c_name'])
-#             s.c_name=t_tuple[0]
-#             s.c_id=t_tuple[1]
-#             info.append(s)
-#     return render_template("#.html" info=info)
-
-# @app.route('/teacher/<techer_id>/<course_id>', methods=['POST'])
-# def method_name():
-#     pass
-    
-            
-    # for i in range(len(courses)):
-    #     info[f"{course[0][i]}"]={"students":[f"""
-    #     SELECT students_courses.student_id,students.name, students_corses.grade FROM students
-    #     LEFT JOIN students_courses 
-    #     ON students_courses.student_id
-    #     WHERE students_courses.course_id={course[1][i]}"""]}
-    #     #makes no sense!
 @app.route('/listall', methods=['GET', 'POST'])
 def listall():
     result= Student.json_result()

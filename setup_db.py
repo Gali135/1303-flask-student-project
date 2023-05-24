@@ -146,8 +146,11 @@ def create_fake_data(students_num=40 , teacher_num=4):
     execute_query("INSERT INTO role (role_id, title) VALUES (3, 'admin')")
     execute_query("INSERT INTO users (username, password,role_id) VALUES ('admin@test.org','admin@test.org', 3)")
     
-
-
+    execute_query("UPDATE courses SET description='Learn Python including Excel/Database/Test/Network Automation, Data Analysis, Web Development, REST APIs, GraphQL & more' WHERE name='python'")
+    execute_query("UPDATE courses SET description='The modern JavaScript course for everyone! Master JavaScript with projects, challenges and theory. Many courses in one!' WHERE name='javascript'")
+    execute_query("UPDATE courses SET description='Learn Java In This Course And Become a Computer Programmer. Obtain valuable Core Java Skills And Java Certification' WHERE name='java'")
+    execute_query("UPDATE courses SET description='Go From Beginner To HTML Master In A Single Day!' WHERE name='html'")
+    execute_query("UPDATE courses SET description='Learn CSS for the first time or brush up your CSS skills and dive in even deeper. EVERY web developer has to know CSS.' WHERE name='css'")
 
 if __name__=="__main__":
     create_tables()

@@ -14,14 +14,16 @@
             <h3>Welcome to Course {{ c.c_name }}- info page </h3>
         </div>
         <table class="info_table">
-                <tr><th>Course Name</th><th>id</th><th>date</th></tr>
-                <tr><td>{{c.c_name}}</td><td>{{c.c_id}}</td><td>{{c.date}}</td></tr>
+                <tr><th>Course Name</th><th>id</th><th>date</th><th>syllabus</th></tr>
+                <tr><td>{{c.c_name}}</td><td>{{c.c_id}}</td><td>{{c.date}}</td>
+                <td><a href="/static/files/{{c.file}}" download>Download File</a></td></tr>
                 
         </table> 
         <table class="students_table">
             <tr><th>Student Name</th><th>Grade</th><th> presence </th></tr>
             {%for s in student_info%}
-                <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.per_presence}}%</td></tr>
+                <tr><td>{{s.s_name}}</td><td>{{s.grade}}</td><td>{{s.per_presence}}%</td>
+                    </tr>
             {%endfor%}
         </table>  
         

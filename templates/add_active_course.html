@@ -15,7 +15,7 @@
     </div>
 
     <div class="wrapper_i">
-        <form action="/add_active_course" method="post">
+        <form action="/add_active_course" method="post" enctype="multipart/form-data">
             <div class="title">Add Course</div><br>
             <label for="course_name">Select Course</label>
             <select name="course_name" id="course_name">
@@ -43,7 +43,7 @@
                 <tr><th>Course names</th><th>Teacher asigned</th><th>Start Date</th><th>syllabus</th><th></th><th></th></tr>
                 {% for course in a_courses_lst %}
                 <tr>
-                    <td> <a href="courses/students/{{course.id}}">{{course.c_name}}</a> </td>
+                    <td> {{course.c_name}} </td>
                     <td>{{course.t_name}}</td>
                     <td>{{course.date}}</td>
                     {% if course.file %}

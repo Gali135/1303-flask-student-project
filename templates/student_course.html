@@ -7,31 +7,32 @@
     {% include 'navbar.html' %}
     {%block content%}
     {% endblock %}
-    <div class="course_student_info"> 
-    {% for info in course_info %}
-        <h4><h1> Course {{info.course_name}}</h1> , Course Num: {{info.course_id}}</h4>
-       <div class="teacher_contact_info">
-            <h4>Teacher Name: {{info.teacher_name}} </h4> <h4>Email: {{info.email}}</h4>
-       </div>
-    {% endfor %}   
-       <div class="student_stat">
+    <div class="wrapper_i">
+        <div class="msg"> 
+        {% for info in course_info %}
+            <h4><h1> Course {{info.course_name}}</h1> Course Num: {{info.course_id}}</h4>
+        </div>
+        <table class="table1">
+            <tr><th>Teacher Name</th> <th>Email</th><th>Syllabus</th></tr>
+            <tr><td>{{info.teacher_name}}</td><td>{{info.email}}</td>
+                <td><a href="/static/files/{{info.file}}" download>Download File</a></td></tr>
+        </table>
+        {% endfor %}   
         {% for i in student_info %}
-        <p> {{i.student_name}}'s Numbers </p>
-        <ul>
-            <li>Grade: {{i.grade}}</li>
-            <li>Attendance: {{i.per_presence}}</li>
-        </ul>
+        <table class="table2">
+            <title></title>
+            <tr><th>{{i.student_name}}'s Grade</th> <th>{{i.student_name}}'s Attendance</th></tr>
+            <tr><td>{{i.grade}}</td><td>{{i.per_presence}}</td></tr>
+        </table>
         {% endfor %} 
-       </div>    
-    
-
-    </div>
-       
-    
+        
+        
+        
         <footer>
             {% include 'footer.html' %}
             {%block footer%}
             {%endblock%}
+    </div>
 </body>
 
 </html>

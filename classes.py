@@ -152,7 +152,7 @@ class Course:
     
     def add(course_name, teacher_id,start_date,file): 
         execute_query(
-            f"INSERT INTO active_courses (name, teacher_id ,date,file) VALUES ('{course_name}','{teacher_id}','{start_date}','{file}')")
+            f"INSERT INTO active_courses (name, teacher_id ,date,file) VALUES ('{course_name}',{teacher_id},'{start_date}','{file}')")
 
     def show_all():
          pass
